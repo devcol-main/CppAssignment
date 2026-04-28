@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{56E88E8D-BA77-4044-8212-684C5616A734}|CppTextRPGProject\\CppTextRPGProject.vcxproj|C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\HW1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{56E88E8D-BA77-4044-8212-684C5616A734}|CppTextRPGProject\\CppTextRPGProject.vcxproj|solutionrelative:CppTextRPGProject\\HW1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E8799F9C-3543-455D-BC60-D923117E81C3}|HW1_DPCharacterCreation\\HW1_DPCharacterCreation.vcxproj|C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E8799F9C-3543-455D-BC60-D923117E81C3}|HW1_DPCharacterCreation\\HW1_DPCharacterCreation.vcxproj|solutionrelative:HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{56E88E8D-BA77-4044-8212-684C5616A734}|CppTextRPGProject\\CppTextRPGProject.vcxproj|C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\CppTextRPGProject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -35,14 +35,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "HW1.cpp",
-              "DocumentMoniker": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\HW1.cpp",
-              "RelativeDocumentMoniker": "CppTextRPGProject\\HW1.cpp",
-              "ToolTip": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\HW1.cpp",
-              "RelativeToolTip": "CppTextRPGProject\\HW1.cpp",
-              "ViewState": "AgIAABwAAAAAAAAAAAAkwCoAAAAKAAAAAAAAAA==",
+              "Title": "HW1_DPCharacterCreation.cpp",
+              "DocumentMoniker": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
+              "RelativeDocumentMoniker": "HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
+              "ToolTip": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
+              "RelativeToolTip": "HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
+              "ViewState": "AgIAACoAAAAAAAAAAAAIwDAAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-28T03:09:44.558Z",
+              "WhenOpened": "2026-04-28T03:58:09.304Z",
               "EditorCaption": ""
             },
             {
@@ -53,9 +53,10 @@
               "RelativeDocumentMoniker": "CppTextRPGProject\\CppTextRPGProject.cpp",
               "ToolTip": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\CppTextRPGProject.cpp",
               "RelativeToolTip": "CppTextRPGProject\\CppTextRPGProject.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-28T03:08:10.752Z"
+              "WhenOpened": "2026-04-28T03:08:10.752Z",
+              "EditorCaption": ""
             }
           ]
         }

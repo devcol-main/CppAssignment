@@ -4,4 +4,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="CppTextRPGProject/CppTextRPGProject.vcxproj" Id="56e88e8d-ba77-4044-8212-684c5616a734" />
+  <Project Path="HW1_DPCharacterCreation/HW1_DPCharacterCreation.vcxproj" Id="e8799f9c-3543-455d-bc60-d923117e81c3" />
 </Solution>
