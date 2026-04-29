@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B8AD60CE-A189-4B94-9EB3-4200E5C89008}|HW3_StatManageMenu\\HW3_StatManageMenu.vcxproj|C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW3_StatManageMenu\\HW3_StatManageMenu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B8AD60CE-A189-4B94-9EB3-4200E5C89008}|HW3_StatManageMenu\\HW3_StatManageMenu.vcxproj|solutionrelative:HW3_StatManageMenu\\HW3_StatManageMenu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{56E88E8D-BA77-4044-8212-684C5616A734}|CppTextRPGProject\\CppTextRPGProject.vcxproj|C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\CppTextRPGProject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{56E88E8D-BA77-4044-8212-684C5616A734}|CppTextRPGProject\\CppTextRPGProject.vcxproj|solutionrelative:CppTextRPGProject\\CppTextRPGProject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,20 +42,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "HW3_StatManageMenu.cpp",
+              "DocumentMoniker": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW3_StatManageMenu\\HW3_StatManageMenu.cpp",
+              "RelativeDocumentMoniker": "HW3_StatManageMenu\\HW3_StatManageMenu.cpp",
+              "ToolTip": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW3_StatManageMenu\\HW3_StatManageMenu.cpp",
+              "RelativeToolTip": "HW3_StatManageMenu\\HW3_StatManageMenu.cpp",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAAM8AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-29T02:54:37.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "HW2_InputTesting.cpp",
               "DocumentMoniker": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW2_InputTesting\\HW2_InputTesting.cpp",
               "RelativeDocumentMoniker": "HW2_InputTesting\\HW2_InputTesting.cpp",
               "ToolTip": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW2_InputTesting\\HW2_InputTesting.cpp",
               "RelativeToolTip": "HW2_InputTesting\\HW2_InputTesting.cpp",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAADAAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-28T10:59:16.71Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "HW1_DPCharacterCreation.cpp",
               "DocumentMoniker": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
               "RelativeDocumentMoniker": "HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
@@ -59,18 +76,17 @@
               "RelativeToolTip": "HW1_DPCharacterCreation\\HW1_DPCharacterCreation.cpp",
               "ViewState": "AgIAABUAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-28T03:58:09.304Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-28T03:58:09.304Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CppTextRPGProject.cpp",
               "DocumentMoniker": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\CppTextRPGProject.cpp",
               "RelativeDocumentMoniker": "CppTextRPGProject\\CppTextRPGProject.cpp",
               "ToolTip": "C:\\Users\\i9lee\\Documents\\GD_Sync\\CppAssignment\\CppTextRPGProject\\CppTextRPGProject\\CppTextRPGProject.cpp",
               "RelativeToolTip": "CppTextRPGProject\\CppTextRPGProject.cpp",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAIwB0AAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAJYAAAAAAAAAAADwvxAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-28T03:08:10.752Z",
               "EditorCaption": ""
