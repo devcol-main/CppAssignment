@@ -11,13 +11,14 @@ class Player
 {
 
 protected:
+	// variables
 	string name;
 	JOB job;
 	int level, hp, mp, power, defence;
 	
 
 public:
-	// variables
+	
 	Player(string name, JOB job, int hp, int mp, int power, int defense) :
 	name(name), job(job), hp(hp), mp(mp), power(power), defence(defense)
 	{
@@ -36,16 +37,19 @@ public:
 	
 	// === not done ===
 	// getter
-	/*
-	void getPlayerStatus();
-	void getHP();
-	void getMP();
-	void getPower();
-	void getDefense();
+	string getPlayerName();
+	string getPlayerJobname();
+	
+	int getPlayerLevel();
+	int getPlayerHP();
+	int getPlayerMP();
+	int getPlayerPower();
+	int getPlayerDefense();
+	
 	
 	// setter
-	void setPlayerStatus();
-	*/
+	virtual bool setDamageAttackedFromMonster(int damage);
+
 	
 
 	virtual ~Player() {}

@@ -1,19 +1,24 @@
-// CppTextRPGProject.cpp : Start Date: 4/28/2026
+// CppTextRPGProject.cpp
+// Start Date: 4/28/2026
 
 
 #include <iostream>
 
 //
-#include "10_Player.h"
+//#include "10_Player.h"
 
 #include "11_Warrior.h"
 #include "11_Magician.h"
 #include "11_Thief.h"
 #include "11_Archer.h"
+
+//
+//#include "20_Monster.h"
+#include "21_Slime.h"
 //
 using namespace std;
 
-
+enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
 //
 void printGameTitle();
 string enterName();
@@ -31,10 +36,10 @@ void upgradeStatMenu(string heroName,
 int printJobChoice(string heroName);
 int jobSelect(string heroName);
 
-void endingCredit();
+void createPlayerWithJob(string heroName, int stat[4], Player*& player, int selectedJobNum);
+void startBattleWithMonster(Player* player, Slime monster);
 
-//
-enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
+void endingCredit();
 
 
 int main()
@@ -60,87 +65,31 @@ int main()
 	enterStats(stat);
 
 
-	printStatus(heroName, stat);
-	//
+	printStatus(heroName, stat);	
 	
-	//
 	printStatManageMenu();
 
-	// choice
 	
 	upgradeStatMenu(heroName, stat, HealthPotion, ManaPotion, isGameStart, HealthPotionIncreaseAmount,
 	                ManaPotionIncreaseAmount);
-	//
+	
 	int selectedJobNum = jobSelect(heroName);
 	
-	switch (selectedJobNum)
-	{
-		case JOB_Warrior:
-			{
-				cout << "You became a Warrior! (Defense +30)\n";
-				stat[STATS_Defense] += 30;
-				
-				player = new Warrior(heroName, JOB_Warrior,
-					stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
-			}
-		break;
-		
-		case JOB_Magician:
-			{
-				cout << "You became a Mage! (MP +30)\n";	
-				stat[STATS_MP] += 30;
-				
-				player = new Magician(heroName, JOB_Magician,
-					stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);			
-				
-			}
-		break;
-		
-		case JOB_Thief:
-			{
-				cout << "You became a Thief! (HP +30)\n";
-				stat[STATS_HP] += 30;
-				
-				player = new Thief(heroName, JOB_Thief,
-					stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
-			}
-		break;
-		
-		case JOB_Archer:
-		{
-			cout << "You became a Archer! (Power +30)\n";
-				stat[STATS_Attack] += 30;
-				
-				player = new Archer(heroName, JOB_Archer,
-					stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
-		}
-		break;		
-	}
+	createPlayerWithJob(heroName, stat, player, selectedJobNum);
 	
 	player->attack();
 	
 	cout << "------------------------------------\n";
 	player->printPlayerStatus();
 	cout << "------------------------------------\n";
-	/*
 	
-
-	* You became a Mage! (MP +30)
-	* Fires a fireball!
-	------------------------------------
-	Name: John | Job: Mage | Lv.1
-	HP: 80 | MP: 90 | Attack: 40 | Defense: 25
-	------------------------------------
 	
-	*/
+	// enter battle	
+	Slime monster;	
+	startBattleWithMonster(player, monster);
 	
-	//Player player(heroName, stat[STATS_HP], stat[STATS_MP], stat[STATS_Attack], stat[STATS_Defense]);
-		
-
 	//
 	delete player;
-	
-	//
 	endingCredit();
 }
 
@@ -382,10 +331,101 @@ int jobSelect(string heroName)
 }
 
 
+void createPlayerWithJob(string heroName, int stat[4], Player*& player, int selectedJobNum)
+{
+	switch (selectedJobNum)
+	{
+	case JOB_Warrior:
+		{
+			cout << "You became a Warrior! (Defense +30)\n";
+			stat[STATS_Defense] += 30;
+				
+			player = new Warrior(heroName, JOB_Warrior,
+								 stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
+		}
+		break;
+		
+	case JOB_Magician:
+		{
+			cout << "You became a Mage! (MP +30)\n";	
+			stat[STATS_MP] += 30;
+				
+			player = new Magician(heroName, JOB_Magician,
+								  stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);			
+				
+		}
+		break;
+		
+	case JOB_Thief:
+		{
+			cout << "You became a Thief! (HP +30)\n";
+			stat[STATS_HP] += 30;
+				
+			player = new Thief(heroName, JOB_Thief,
+							   stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
+		}
+		break;
+		
+	case JOB_Archer:
+		{
+			cout << "You became a Archer! (Power +30)\n";
+			stat[STATS_Attack] += 30;
+				
+			player = new Archer(heroName, JOB_Archer,
+								stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
+		}
+		break;		
+	}
+}
+
+
+void startBattleWithMonster(Player* player, Slime monster)
+{
+	cout << "\n";
+	cout<< "[ Battle Start! ] " << player->getPlayerName() 
+		<< "(" << player->getPlayerJobname() << ")" 
+		<< " vs " << monster.getMonsterName() << "\n\n";  
+	
+	while (player->getPlayerHP() > 0 && monster.getHP() > 0)
+	{
+		
+		// Player Turn
+		cout << "--- Player Turn ---\n";	
+		//
+		player->attack(); // plain text
+	
+		//	
+	
+		if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		{
+			// true monster dead
+			// battle end
+			cout << "\nVictory!\n";
+			cout << "-> Got: " << monster.getDropItemName() << "!\n";
+		
+		}
+		else
+		{
+			// false monster is not dead
+			// monster attack
+			cout << "\n--- Monster Turn ---\n";
+			monster.attack(player);
+			
+			if (player->getPlayerHP() <= 0)
+			{
+				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
+			}
+			
+		
+		}
+	}
+}
+
+
 //
 void endingCredit()
 {
 
-	cout << "\n\n\n\n";
+	cout << "\n\n";
 	cout << "Created by in9 | Date: 2026/05/ " << endl;
 }
