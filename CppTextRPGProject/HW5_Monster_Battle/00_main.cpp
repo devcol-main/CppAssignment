@@ -4,6 +4,13 @@
 #include <iostream>
 
 //
+#include "10_Player.h"
+
+#include "11_Warrior.h"
+#include "11_Magician.h"
+#include "11_Thief.h"
+#include "11_Archer.h"
+//
 using namespace std;
 
 
@@ -20,14 +27,20 @@ void upgradeStatMenu(string heroName,
 	int stat[4], int HealthPotion, int ManaPotion, bool isGameStart, 
 	int HealthPotionIncreaseAmount, int ManaPotionIncreaseAmount);
 
-void endingCredit();
 
+int printJobChoice(string heroName);
+int jobSelect(string heroName);
+
+void endingCredit();
+void createPlayerWithJob(string heroName, int stat[4], Player*& player, int selectedJobNum);
 //
 enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
 
+
+
 int main()
 {
-
+	
 	//
 	string heroName;
 	const int SIZE = 4; int stat[SIZE] = { 0 }; //HP, MP, Attack, Defense;
@@ -37,32 +50,38 @@ int main()
 	
 	// custom
 	int HealthPotionIncreaseAmount = 20, ManaPotionIncreaseAmount = 20;
-
-
+	//
+	Player* player = nullptr;
+	//
+	
+	
 	//
 	printGameTitle();
 	heroName = enterName();	
 	enterStats(stat);
 
 
-	printStatus(heroName, stat);
-	//
+	printStatus(heroName, stat);	
 	
-	//
 	printStatManageMenu();
 
-	// choice
 	
 	upgradeStatMenu(heroName, stat, HealthPotion, ManaPotion, isGameStart, HealthPotionIncreaseAmount,
 	                ManaPotionIncreaseAmount);
-	//
+	
+	int selectedJobNum = jobSelect(heroName);
+	
+	createPlayerWithJob(heroName, stat, player, selectedJobNum);
+	
+	player->attack();
+	
+	cout << "------------------------------------\n";
+	player->printPlayerStatus();
+	cout << "------------------------------------\n";
 	
 	
-	//Player player(heroName, stat[STATS_HP], stat[STATS_MP], stat[STATS_Attack], stat[STATS_Defense]);
-		
-
-
 	//
+	delete player;
 	endingCredit();
 }
 
@@ -263,31 +282,92 @@ void upgradeStatMenu(string heroName,
 }
 
 
-
-void jobSelection()
+int printJobChoice(string heroName)
 {
-	cout << "< Job Selection >\n";
+	int selectedJobNum = 0;
 	
-	cout << ", choose your job!\n";
-	cout << "1. Warrior   2. Mage   3. Rogue   4. Archer\n";
-	cout << "Choose: "; //cin >> ; 
-	cout << "------------------------------------\n";
+	cout << "\n< Job Selection >\n";	
+	cout << heroName; cout << ", choose your job!\n";
+	cout << "1. Warrior   2. Magician   3. Thief   4. Archer\n";
+	// from player enum JOB { JOB_Warrior = 0, JOB_Magician, JOB_Thief, JOB_Archer };
+	
+	cout << "Choose: "; cin >> selectedJobNum;
+	// to match with enum index 0~3
+	return (--selectedJobNum);
+}
 
-	cout << "------------------------------------\n";
-/*
+int jobSelect(string heroName)
+{
+	int selectedJobNum = printJobChoice(heroName);	
+	
+	
+	while (true)
+	{
+		if (selectedJobNum < 0 || selectedJobNum > 3)
+		{
+			cout << "\n!!!!! Wrong Choice !!!!!\n";
+			cout << "Press from 1 ~ 4\n";
+			cout << "\n";
+			
+			// from player enum JOB { JOB_Warrior = 0, JOB_Magician, JOB_Thief, JOB_Archer };	
+			selectedJobNum = printJobChoice(heroName);	
+		}
+		else
+		{
+			break;
+		}		
+	}	
+	
+	return selectedJobNum;	
+	
+}
 
-< Job Selection >
-John, choose your job!
-1. Warrior   2. Mage   3. Rogue   4. Archer
-Choose: 2
-* You became a Mage! (MP +30)
-* Fires a fireball!
-------------------------------------
-Name: John | Job: Mage | Lv.1
-HP: 80 | MP: 90 | Attack: 40 | Defense: 25
-------------------------------------
 
-*/
+void createPlayerWithJob(string heroName, int stat[4], Player*& player, int selectedJobNum)
+{
+	switch (selectedJobNum)
+	{
+	case JOB_Warrior:
+		{
+			cout << "You became a Warrior! (Defense +30)\n";
+			stat[STATS_Defense] += 30;
+				
+			player = new Warrior(heroName, JOB_Warrior,
+								 stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
+		}
+		break;
+		
+	case JOB_Magician:
+		{
+			cout << "You became a Mage! (MP +30)\n";	
+			stat[STATS_MP] += 30;
+				
+			player = new Magician(heroName, JOB_Magician,
+								  stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);			
+				
+		}
+		break;
+		
+	case JOB_Thief:
+		{
+			cout << "You became a Thief! (HP +30)\n";
+			stat[STATS_HP] += 30;
+				
+			player = new Thief(heroName, JOB_Thief,
+							   stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
+		}
+		break;
+		
+	case JOB_Archer:
+		{
+			cout << "You became a Archer! (Power +30)\n";
+			stat[STATS_Attack] += 30;
+				
+			player = new Archer(heroName, JOB_Archer,
+								stat[STATS_HP], stat[STATS_MP],stat[STATS_Attack] , stat[STATS_Defense]);
+		}
+		break;		
+	}
 }
 
 
