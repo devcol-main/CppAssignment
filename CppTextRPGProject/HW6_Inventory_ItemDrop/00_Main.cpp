@@ -15,10 +15,23 @@
 //
 //#include "20_Monster.h"
 #include "21_Slime.h"
+
+#include <vector>
 //
 using namespace std;
 
 enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
+
+struct Item
+{
+	string itemName;
+	int itemPrice;
+	void PrintInfo() const
+	{
+		cout << itemName << " (" << itemPrice << "G)\n";
+	}
+};
+
 //
 void printGameTitle();
 string enterName();
@@ -37,10 +50,11 @@ int printJobChoice(string heroName);
 int jobSelect(string heroName);
 
 void createPlayerWithJob(string heroName, int stat[4], Player*& player, int selectedJobNum);
-void startBattleWithMonster(Player* player, Slime monster);
+void startBattleWithMonster(Player* player, Slime monster, vector<Item> inventory);
 
 void endingCredit();
 
+// ===============================================
 
 int main()
 {
@@ -56,8 +70,24 @@ int main()
 	int HealthPotionIncreaseAmount = 20, ManaPotionIncreaseAmount = 20;
 	//
 	Player* player = nullptr;
-	//
 	
+	
+	
+	//	
+	int currentMaxInventroySize = 10;
+	vector<Item> inventory; 
+	
+	//
+	Item item;
+	item.itemName = "Slime Jelly";
+	item.itemPrice = 30;
+	
+	
+	//inventory.insert(inventory.begin(), item);
+	inventory.push_back(item);	
+	
+	//cout << "in size : " << inventory.size() <<endl;	
+	//cout << "in " << inventory[0].itemName << " " <<inventory[0].itemPrice << endl;
 	
 	//
 	printGameTitle();
@@ -77,6 +107,60 @@ int main()
 	
 	createPlayerWithJob(heroName, stat, player, selectedJobNum);
 	
+	// Main Menu
+	
+	
+	// menu selection.
+	while (true)
+	{
+		int selectedMenuNum = 0;
+		cout << "\n=== Main Menu ===\n";
+		cout << "1. Enter Dungeon\n";
+		cout << "2. Check Inventory\n";
+		cout << "0. Quit\n";
+		
+		cout << "\nChoose: "; cin >> selectedMenuNum;
+		
+		if (1 == selectedMenuNum)
+		{
+			cout << "Enter Dungeon\n";
+			break;
+		}		
+		else if (2 == selectedMenuNum)
+		{
+			int num = 1;	
+			cout << "[ Inventory (" <<inventory.size() << "/" << currentMaxInventroySize << ") ]\n";				
+				
+			for (auto items : inventory)
+			{
+				cout<< num << ". " << items.itemName << " (" << items.itemPrice << "G)\n";
+				++num;
+			}
+			/*
+			 for (int i = 0; i < inventory.size(); ++i)
+			{
+				inventory[i].PrintInfo();
+			}
+			*/
+		}		
+		else if (0 == selectedMenuNum)
+		{
+			cout << "Quit\n";
+			return 0;
+		}
+		else
+		{
+			cout << "!!!!! Wrong Choice !!!!!\n";
+			cout << "Press 1 or 2 or 0\n";
+			cout << "\n";
+		}
+		
+	}
+	
+	
+	
+	
+	// Start Balltle
 	player->attack();
 	
 	cout << "------------------------------------\n";
@@ -84,9 +168,9 @@ int main()
 	cout << "------------------------------------\n";
 	
 	
-	// enter battle	
+	// Enter battle loop	
 	Slime monster;	
-	startBattleWithMonster(player, monster);
+	startBattleWithMonster(player, monster, inventory);
 	
 	//
 	delete player;
@@ -378,8 +462,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 	}
 }
 
-
-void startBattleWithMonster(Player* player, Slime monster)
+void startBattleWithMonster(Player* player, Slime monster, vector<Item> inventory)
 {
 	cout << "\n";
 	cout<< "[ Battle Start! ] " << player->getPlayerName() 
@@ -402,6 +485,8 @@ void startBattleWithMonster(Player* player, Slime monster)
 			// battle end
 			cout << "\nVictory!\n";
 			cout << "-> Got: " << monster.getDropItemName() << "!\n";
+			inventory.push_back(Item{ monster.getDropItemName(), monster.getDropItemPrice() });
+			cout << "-> Saved to inventory.\n";
 		
 		}
 		else

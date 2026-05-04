@@ -78,6 +78,7 @@ int main()
 	
 	createPlayerWithJob(heroName, stat, player, selectedJobNum);
 	
+	//
 	player->attack();
 	
 	cout << "------------------------------------\n";
