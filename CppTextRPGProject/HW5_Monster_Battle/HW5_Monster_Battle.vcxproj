@@ -154,7 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="00_main.cpp">
+    <ClCompile Include="00_Main.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -610,6 +610,8 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="20_Monster.cpp" />
+    <ClCompile Include="21_Slime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="10_Player.h" />
@@ -617,6 +619,8 @@
     <ClInclude Include="11_Magician.h" />
     <ClInclude Include="11_Thief.h" />
     <ClInclude Include="11_Warrior.h" />
+    <ClInclude Include="20_Monster.h" />
+    <ClInclude Include="21_Slime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

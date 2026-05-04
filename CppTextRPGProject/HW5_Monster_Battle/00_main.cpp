@@ -1,15 +1,20 @@
-// CppTextRPGProject.cpp : Start Date: 4/28/2026
+// CppTextRPGProject.cpp
+// Start Date: 4/28/2026
 
 
 #include <iostream>
 
 //
-#include "10_Player.h"
+//#include "10_Player.h"
 
 #include "11_Warrior.h"
 #include "11_Magician.h"
 #include "11_Thief.h"
 #include "11_Archer.h"
+
+//
+//#include "20_Monster.h"
+#include "21_Slime.h"
 //
 using namespace std;
 
@@ -79,6 +84,50 @@ int main()
 	player->printPlayerStatus();
 	cout << "------------------------------------\n";
 	
+	
+	// enter battle	
+	
+	Slime monster;
+	//s.attack(player);
+	
+	cout << "\n";
+	cout<< "[ Battle Start! ] " << player->getPlayerName() 
+	<< "(" << player->getPlayerJobname() << ")" 
+	<< " vs " << monster.getMonsterName() << "\n\n";  
+	
+	while (player->getPlayerHP() > 0 && monster.getHP() > 0)
+	{
+		
+		// Player Turn
+		cout << "--- Player Turn ---\n";	
+		//
+		player->attack(); // plain text
+	
+		//	
+	
+		if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		{
+			// true monster dead
+			// battle end
+			cout << "\nVictory!\n";
+			cout << "-> Got: " << monster.getDropItemName() << "!\n";
+		
+		}
+		else
+		{
+			// false monster is not dead
+			// monster attack
+			cout << "\n--- Monster Turn ---\n";
+			monster.attack(player);
+			
+			if (player->getPlayerHP() <= 0)
+			{
+				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
+			}
+			
+		
+		}
+	}
 	
 	//
 	delete player;

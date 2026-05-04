@@ -3,7 +3,6 @@
 
 //
 
-
 void Player::printPlayerStatus()
 {
     //cout << "1. Warrior   2. Magician   3. Thief   4. Archer\n";
@@ -20,3 +19,84 @@ void Player::printPlayerStatus()
 
     cout <<  "HP: " << hp << " | MP: " << mp << " | Attack: " << power << " | Defense: " << defence << endl;
 }
+
+// getter
+
+string Player::getPlayerName()
+{
+    return name;
+}
+
+string Player::getPlayerJobname()
+{
+    string jobName = "";
+    
+    switch (job)
+    {
+    case JOB_Warrior: jobName = "Warrior"; break;
+    case JOB_Magician: jobName = "Magician"; break;
+    case JOB_Thief: jobName = "Thief"; break;
+    case JOB_Archer: jobName = "Archer"; break;
+    }
+    
+    return  jobName;
+}
+
+int Player::getPlayerLevel() {return level; }
+
+int Player::getPlayerHP() {return hp; }
+int Player::getPlayerMP() {return mp; }
+
+
+int Player::getPlayerPower() {return power; }
+int Player::getPlayerDefense() {return defence; }
+
+// ====== Setter
+
+bool Player::setDamageAttackedFromMonster(int damage)
+{
+    bool isDead = false;
+   
+    int fixedDamage = 1;
+    int originHP = hp;    
+    int calIncompingDamage = 0;
+    
+    cout << damage << " damage to " << name << "!";
+    
+    calIncompingDamage = defence - damage;   
+    
+    // just to show it txt...
+    calIncompingDamage *= -1;
+    
+    
+    if (calIncompingDamage > 0)
+    {
+        hp -= calIncompingDamage;
+    }
+    else
+    {
+        calIncompingDamage = fixedDamage;
+        hp -= calIncompingDamage;
+    }
+    cout << " | Actual Damage: " << calIncompingDamage << " (defense - damage)\n";
+    
+    cout << name << " HP: " << originHP << " -> " << hp;
+    
+    string status = "";
+    
+    if (hp <= 0)
+    {
+        status = "Dead";    
+        isDead = true;
+    }
+    else
+    {
+        status = "Alive";
+        isDead = false;       
+    }
+    
+    cout << " (" << status << ")\n";
+    
+    return isDead;
+}
+
