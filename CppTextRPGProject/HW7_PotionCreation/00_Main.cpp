@@ -92,46 +92,8 @@ bool SearchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName
 }
 
 
-// 대소문자 & 띄어쓰기 정확해야함 // 그거 무시하는거 구현 귀찮.
-int main()
-{   
-    string const HPPOTION = "HPPotion";
-    string const STAMINA_POTION = "StaminaPotion";
-    
-    string const HERB = "Herb";
-    string const CLEAR_WATER = "Clear Water";
-    string const BERRY = "Berry";
-    
-    //
-    vector<PotionRecipe> allPotionInfo;  
-    
-    //
-    PotionRecipe hpPotionRecipe;
-    
-    hpPotionRecipe.potionName = HPPOTION;
-    
-    hpPotionRecipe.ingredientName1 = HERB;
-    hpPotionRecipe.ingredientMap[HERB] = 1;
-    
-    hpPotionRecipe.ingredientName2 = CLEAR_WATER;
-    hpPotionRecipe.ingredientMap[CLEAR_WATER] = 1;
-    
-    //
-    PotionRecipe staminaPotionRecipe;
-    staminaPotionRecipe.potionName = STAMINA_POTION;
-    staminaPotionRecipe.ingredientName1 = HERB;
-    staminaPotionRecipe.ingredientMap[HERB] = 1;
-    staminaPotionRecipe.ingredientName2 = BERRY;
-    staminaPotionRecipe.ingredientMap[BERRY] = 1;   
-    
-    //
-    allPotionInfo.push_back(hpPotionRecipe);
-    allPotionInfo.push_back(staminaPotionRecipe);
-    //
-    
-    
-    
-    //
+void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo)
+{
     while (true)
     {
         //
@@ -183,6 +145,49 @@ int main()
             cout << "!!Wrong choice\n";
         }
     }
+}
+
+// 대소문자 & 띄어쓰기 정확해야함 // 그거 무시하는거 구현 귀찮.
+int main()
+{   
+    string const HPPOTION = "HPPotion";
+    string const STAMINA_POTION = "StaminaPotion";
+    
+    string const HERB = "Herb";
+    string const CLEAR_WATER = "Clear Water";
+    string const BERRY = "Berry";
+    
+    //
+    vector<PotionRecipe> allPotionInfo;  
+    
+    //
+    PotionRecipe hpPotionRecipe;
+    
+    hpPotionRecipe.potionName = HPPOTION;
+    
+    hpPotionRecipe.ingredientName1 = HERB;
+    hpPotionRecipe.ingredientMap[HERB] = 1;
+    
+    hpPotionRecipe.ingredientName2 = CLEAR_WATER;
+    hpPotionRecipe.ingredientMap[CLEAR_WATER] = 1;
+    
+    //
+    PotionRecipe staminaPotionRecipe;
+    staminaPotionRecipe.potionName = STAMINA_POTION;
+    staminaPotionRecipe.ingredientName1 = HERB;
+    staminaPotionRecipe.ingredientMap[HERB] = 1;
+    staminaPotionRecipe.ingredientName2 = BERRY;
+    staminaPotionRecipe.ingredientMap[BERRY] = 1;   
+    
+    //
+    allPotionInfo.push_back(hpPotionRecipe);
+    allPotionInfo.push_back(staminaPotionRecipe);
+    //
+    
+    
+    
+    //
+    displayPotionShopMenu(allPotionInfo);
         
     
     return 0;
