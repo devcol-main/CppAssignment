@@ -107,10 +107,9 @@ int main()
 	
 	createPlayerWithJob(heroName, stat, player, selectedJobNum);
 	
-	// Main Menu
+	// Main Menu	
 	
-	
-	// menu selection.
+	// Menu selection.
 	while (true)
 	{
 		int selectedMenuNum = 0;
@@ -156,8 +155,6 @@ int main()
 		}
 		
 	}
-	
-	
 	
 	
 	// Start Balltle
