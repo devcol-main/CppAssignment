@@ -7,4 +7,5 @@
   <Project Path="HW1_DPCharacterCreation/HW1_DPCharacterCreation.vcxproj" Id="e8799f9c-3543-455d-bc60-d923117e81c3" />
   <Project Path="HW2_InputTesting/HW2_InputTesting.vcxproj" Id="06fa7824-a568-408c-ae93-faa4d7e278d9" />
   <Project Path="HW3_StatManageMenu/HW3_StatManageMenu.vcxproj" Id="b8ad60ce-a189-4b94-9eb3-4200e5c89008" />
+  <Project Path="HW4_PlayerClass_ClassSelection/HW4_PlayerClass_ClassSelection.vcxproj" Id="6872c011-b934-4f10-a9be-3d0748198221" />
 </Solution>

@@ -7,8 +7,8 @@ using namespace std;
 
 //
 void printStatus(string name, int stat[]);
-void PrintStatManamgeMenu();
-void PrintStatChoices();
+void printStatManageMenu();
+void printStatChoices();
 
 //
 enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
@@ -77,7 +77,7 @@ int main()
 
 
 	//
-	PrintStatManamgeMenu();
+	printStatManageMenu();
 
 	// choice
 	while (!isGameStart)
@@ -174,7 +174,7 @@ int main()
 			cout << "!!!!! Wrong Choice !!!!!" << endl;
 			cout << "Press from 0 ~ 5" << endl;
 			cout << "\n";
-			PrintStatChoices();
+			printStatChoices();
 		}
 			break;
 		}
@@ -192,18 +192,19 @@ void printStatus(string name, int stat[])
 	cout << "====================================" << endl;
 }
 
-void PrintStatManamgeMenu()
+void printStatManageMenu()
 {
 
 	cout << "\n" << endl;
 	cout << "* You received 5 HP Potions and 5 MP Potions." << endl;
-	PrintStatChoices();
+	printStatChoices();
 
 
 }
 
-void PrintStatChoices()
+void printStatChoices()
 {
+	
 	cout << "====================================" << endl;
 	cout << "< Character Upgrade >" << endl;
 	cout << "1. HP UP    2. MP UP    3. Attack x2" << endl;
