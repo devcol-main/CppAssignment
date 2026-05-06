@@ -68,6 +68,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 
 //
 
+void generateRandomMonster(Monster& monster);
 void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inventory);
 
 // potion shop
@@ -251,35 +252,8 @@ int main()
 		player->printPlayerStatus();
 		cout << "------------------------------------\n";
 	
-	
-		// Enter battle loop	
-	
-		// random // TODO: Set in func
-		// 1. Obtain a random number from hardware to seed the generator
-		random_device rd;     
-		// 2. Initialize the Mersenne Twister engine with the seed
-		mt19937 gen(rd()); 
-		// 3. Define the range [1, 2] (inclusive)
-		uniform_int_distribution<> dist(1, 2);
-
-		// 4. Generate the number
-		int random_num = dist(gen);	
-		//cout << "Random Number: " << random_num << endl;
-		// select monster
 		
-		//Monster monster = Monster(); // TODO: TO Be Delete
-	
-		if (random_num == 1)
-		{		
-			monster = Slime();
-		}
-		else if (random_num == 2)
-		{
-			monster = Goblin();
-		}
-	
-		// ==
-		
+		generateRandomMonster(monster);
 		startBattleWithMonster(player, monster, inventory);
 	
 		//
@@ -577,6 +551,35 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 	}
 }
 
+
+
+void generateRandomMonster(Monster& monster)
+{
+
+	// 1. Obtain a random number from hardware to seed the generator
+	random_device rd;     
+	// 2. Initialize the Mersenne Twister engine with the seed
+	mt19937 gen(rd()); 
+	// 3. Define the range [1, 2] (inclusive)
+	uniform_int_distribution<> dist(1, 2);
+
+	// 4. Generate the number
+	int random_num = dist(gen);	
+	//cout << "Random Number: " << random_num << endl;
+	// select monster
+		
+	//Monster monster = Monster(); // TODO: TO Be Delete
+	
+	if (random_num == 1)
+	{		
+		monster = Slime();
+	}
+	else if (random_num == 2)
+	{
+		monster = Goblin();
+	}
+}
+
 void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inventory)
 {
 	cout << "\n";
@@ -591,9 +594,7 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 		cout << "--- Player Turn ---\n";	
 		//
 		
-		player->attack(&monster);
-		
-		//if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		player->attack(&monster);	
 		
 		if (monster.getIsDead())
 		{
@@ -605,19 +606,8 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 			cout << "-> Saved to inventory.\n";
 			
 			//		
-			player->setPlayerExp(monster.getExpReward());
-			
-			/*
-			if (player->setPlayerExp(monster.getExpReward()))
-			{
-				// level up
-			}
-			else
-			{
-				cout << "-> +" << monster.getExpReward() << " EXP! (EXP: " << player->getPlayerExp() << "/" << player->getPlayerMaxExp() << ")\n";	
-			}*/
-			 
-			//player->set
+			player->setPlayerExp(monster.getExpReward()); // returns bool (true if lvl up)
+	
 		
 		}
 		else
@@ -630,11 +620,9 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 			if (player->getPlayerHP() <= 0)
 			{
 				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
-			}
-			
+			}			
 		
-		}
-		
+		}	
 	
 	}
 }
@@ -649,7 +637,7 @@ void ShowAllRecipes(vector<PotionRecipe> allPotionInfo)
 		cout << "-> " << allPotionInfo[i].potionName 
 		<< " (" << allPotionInfo[i].ingredientName1 << " x"<< allPotionInfo[i].ingredientMap[allPotionInfo[i].ingredientName1]
 		<< ", " << allPotionInfo[i].ingredientName2 << " x"<< allPotionInfo[i].ingredientMap[allPotionInfo[i].ingredientName2] << ")\n";
-		//cout << allPotionInfo[i].ingredientMap["Herb"];
+		
 	}
 	cout << endl;   
     
