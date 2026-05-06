@@ -1,5 +1,7 @@
 ﻿#include "22_Goblin.h"
 
+#include "90_GlobalVariable.h"
+
 
 void Goblin::initializing()
 {
@@ -7,7 +9,7 @@ void Goblin::initializing()
     hp = 10;
     power = 10;
     defence = 5;
-    dropItemName = "Goblin Leather";
+    dropItemName =  GOBLIN_LEATHER; //"Goblin Leather";
     dropItemPrice = 10;
     
   

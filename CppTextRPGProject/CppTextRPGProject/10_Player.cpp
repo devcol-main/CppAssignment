@@ -47,6 +47,11 @@ string Player::getJobname()
 int Player::getLevel() {return level; }
 
 int Player::getHP() {return hp; }
+
+int Player::getMaxHP() { return maxHP; }
+
+int Player::getMaxMP() { return maxMP;}
+
 int Player::getMP() {return mp; }
 
 
@@ -122,6 +127,34 @@ bool Player::setExp(int exp)
     return false;
 }
 
+void Player::setHP(int healHP)
+{
+    if (hp + healHP > maxHP)
+    {
+        hp = maxHP;
+    }
+    else
+    {
+        hp += healHP;        
+    }
+       
+}
+
+void Player::setMP(int healMP)
+{
+    if (mp + healMP > maxMP)
+    {
+        mp = maxMP;
+    }
+    else
+    {
+        mp += healMP;        
+    }
+    
+}
+
+//
+
 void Player::levelUp()
 {
     cout << "\n... Level up condition met\n";
@@ -131,8 +164,14 @@ void Player::levelUp()
     cout << "Lv." << level << endl;
     
     // TODO: Should be in variable... but let it be for now. 
-    hp += 10;
-    mp += 5;
+    maxHP += 10;
+    maxMP += 5;
+    
+    hp = maxHP;
+    mp = maxMP;
+    
+    //hp += 10;
+    //mp += 5;
     power += 5;
     defence += 5;    
     maxExp += maxExpIncreaseAmount;

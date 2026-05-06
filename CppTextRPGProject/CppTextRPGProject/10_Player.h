@@ -16,6 +16,7 @@ protected:
 	string name;
 	JOB job;
 	int level, hp, mp, power, defence;
+	int maxHP, maxMP;
 	int exp = 0;
 	int maxExp = 100;
 	const int maxExpIncreaseAmount = 10;
@@ -27,6 +28,8 @@ public:
 	name(name), job(job), hp(hp), mp(mp), power(power), defence(defense)
 	{
 		level = 1;
+		maxHP = hp;
+		maxMP = mp;	
 	}
 
 	// pure virtual func	
@@ -45,8 +48,13 @@ public:
 	string getJobname();
 	
 	int getLevel();
+	
 	int getHP();
+	int getMaxHP();
+	
 	int getMP();
+	int getMaxMP();
+	
 	int getPower();
 	int getDefense();
 	
@@ -57,6 +65,10 @@ public:
 	virtual bool setDamageAttackedFromMonster(int damage);
 	
 	bool setExp(int exp);
+	
+	
+	void setHP(int healHP);
+	void setMP(int healMP);
 	
 	
 

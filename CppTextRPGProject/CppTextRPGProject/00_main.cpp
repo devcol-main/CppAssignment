@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <algorithm>
 
 
 //
@@ -22,21 +23,12 @@
 #include "21_Slime.h"
 #include "22_Goblin.h"
 
+#include  "30_Inventory.h"
 
+#include  "90_GlobalVariable.h"
 //
 using namespace std;
 
-enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
-
-struct ItemInfo
-{
-	string itemName;
-	int itemPrice;
-	void PrintInfo() const
-	{
-		cout << itemName << " (" << itemPrice << "G)\n";
-	}
-};
 
 struct PotionRecipe
 {
@@ -53,7 +45,7 @@ string enterName();
 void enterStats(int stat[4]);
 
 void printStatus(string name, int stat[]);
-void printStatManageMenu();
+
 void printStatChoices();
 
 void upgradeStatMenu(string heroName, 
@@ -69,7 +61,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 //
 
 void generateRandomMonster(Monster& monster);
-void startBattleWithMonster(Player* player, Monster monster, vector<ItemInfo>& inventory);
+void startBattleWithMonster(Player* player, Monster monster, Inventory inventory);
 
 // potion shop
 void showAllRecipes(vector<PotionRecipe> allPotionInfo);
@@ -77,9 +69,13 @@ bool searchByName(vector<PotionRecipe> allPotionInfo, string potionName);
 bool searchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName);
 void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo); // 추후 여기서 제작한거 저장 하려면 &레퍼런스나 *포인터로 변경하자
 
+//
+
+void showInventory(Inventory inventory);
 
 // ===== Extras =====
 void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
+
 
 //
 void endingCredit();
@@ -87,24 +83,21 @@ void endingCredit();
 // ===============================================
 
 
+
 int main()
 {
 	// ===============================================
 	// === Potion shop ===
-	string const HPPOTION = "HPPotion";
-	string const STAMINA_POTION = "StaminaPotion";
-    
-	string const HERB = "Herb";
-	string const CLEAR_WATER = "Clear Water";
-	string const BERRY = "Berry";
+	
     
 	//
+	
 	vector<PotionRecipe> allPotionInfo;  
     
 	//
 	PotionRecipe hpPotionRecipe;
     
-	hpPotionRecipe.potionName = HPPOTION;
+	hpPotionRecipe.potionName = HP_POTION;
     
 	hpPotionRecipe.ingredientName1 = HERB;
 	hpPotionRecipe.ingredientMap[HERB] = 1;
@@ -128,15 +121,18 @@ int main()
 	string heroName;
 	const int SIZE = 4; int stat[SIZE] = { 0 }; //HP, MP, Attack, Defense;
 
-	//int HPPotion = 5, MPPotion = 5;
-	int HPPotion = 0, MPPotion = 0;
+	// 
+	Inventory inventory; 
+	// 	
+	int hpPotionAmount = 0, mpPotionAmount = 0;	
+	int startingPotionCount = 1;
 	
-	setPotion(5,  &HPPotion, &MPPotion);
+	setPotion(startingPotionCount,  &hpPotionAmount, &mpPotionAmount);
 	
 	bool isGameStart = false;
 	
 	// custom
-	int HealthPotionIncreaseAmount = 20, ManaPotionIncreaseAmount = 20;
+	
 	
 	//
 	Monster monster = Monster();
@@ -145,25 +141,29 @@ int main()
 	//
 	Player* player = nullptr;
 	
-	//
 	
+	// ===== Inventory init =====
+	//inventory.insert(inventory.begin(), item);	
+		
+	ItemInfo slimeItem;
+	slimeItem.itemName = SLIME_JELLY;
+	slimeItem.itemPrice = 30;
 	
+	inventory.items.push_back(slimeItem);	
+
+	ItemInfo hpPotionItem;
+	hpPotionItem.itemName = HP_POTION;
+	hpPotionItem.itemPrice = 50;
 	
-	//	
-	int currentMaxInventroySize = 10;
-	vector<ItemInfo> inventory; 
+	inventory.items.push_back(hpPotionItem);
 	
-	//
-	ItemInfo item;
-	item.itemName = "Slime Jelly";
-	item.itemPrice = 30;
+	ItemInfo mpPotionItem;
+	mpPotionItem.itemName = MP_POTION;
+	mpPotionItem.itemPrice = 50;
 	
+	inventory.items.push_back(mpPotionItem);
 	
-	//inventory.insert(inventory.begin(), item);
-	inventory.push_back(item);	
-	
-	//cout << "in size : " << inventory.size() <<endl;	
-	//cout << "in " << inventory[0].itemName << " " <<inventory[0].itemPrice << endl;
+	// ===== =====
 	
 	//
 	printGameTitle();
@@ -172,12 +172,17 @@ int main()
 
 
 	printStatus(heroName, stat);	
-	
-	printStatManageMenu();
 
 	
-	upgradeStatMenu(heroName, stat, HPPotion, MPPotion, isGameStart, HealthPotionIncreaseAmount,
-	                ManaPotionIncreaseAmount);
+	cout << "\n\n";
+	cout << "* You received " << hpPotionAmount <<" HP Potions and "
+		<< mpPotionAmount << " MP Potions.\n\n";
+	
+	printStatChoices();
+
+	
+	upgradeStatMenu(heroName, stat, hpPotionAmount, mpPotionAmount, isGameStart, HPPOTION_INCREASE_AMOUNT,
+	                MPPOTION_INCREASE_AMOUNT);
 	
 	int selectedJobNum = jobSelect(heroName);
 	
@@ -205,21 +210,8 @@ int main()
 			}
 			
 			if (2 == selectedMenuNum)
-			{
-				int num = 1;	
-				cout << "[ Inventory (" <<inventory.size() << "/" << currentMaxInventroySize << ") ]\n";				
-				
-				for (auto items : inventory)
-				{
-					cout<< num << ". " << items.itemName << " (" << items.itemPrice << "G)\n";
-					++num;
-				}
-				/*
-				 for (int i = 0; i < inventory.size(); ++i)
-				{
-					inventory[i].PrintInfo();
-				}
-				*/
+			{				
+				showInventory(inventory);
 			}
 			
 			else if (3 == selectedMenuNum)
@@ -246,8 +238,7 @@ int main()
 		}
 	
 		// Start Balltle
-		//player->attack(); // TODO: TO Be Delete
-	
+			
 		cout << "------------------------------------\n";
 		player->printStatus();
 		cout << "------------------------------------\n";
@@ -337,15 +328,7 @@ void printStatus(string name, int stat[])
 	cout << "====================================\n";
 }
 
-void printStatManageMenu()
-{
 
-	cout << "\n\n";
-	cout << "* You received 5 HP Potions and 5 MP Potions.\n";
-	printStatChoices();
-
-
-}
 
 void printStatChoices()
 {
@@ -567,8 +550,7 @@ void generateRandomMonster(Monster& monster)
 	int random_num = dist(gen);	
 	//cout << "Random Number: " << random_num << endl;
 	// select monster
-		
-	//Monster monster = Monster(); // TODO: TO Be Delete
+	
 	
 	if (random_num == 1)
 	{		
@@ -580,7 +562,7 @@ void generateRandomMonster(Monster& monster)
 	}
 }
 
-void startBattleWithMonster(Player* player, Monster monster, vector<ItemInfo>& inventory)
+void startBattleWithMonster(Player* player, Monster monster, Inventory inventory)
 {
 	cout << "\n";
 	cout<< "[ Battle Start! ] " << player->getName() 
@@ -592,41 +574,144 @@ void startBattleWithMonster(Player* player, Monster monster, vector<ItemInfo>& i
 		
 		// Player Turn
 		cout << "--- Player Turn ---\n";	
-		//
+		// extra 4 item usage
+		cout << "1. Attack\n";
+		cout << "2. Use Item\n";
 		
-		player->attack(&monster);	
+		int playerChoice = 0;
+		cout << "Choose: "; cin >> playerChoice;
 		
-		if (monster.getIsDead())
+		if (playerChoice == 1)
 		{
-			// true monster dead
-			// battle end
-			cout << "\nVictory!\n";
-			cout << "-> Got: " << monster.getDropItemName() << "!\n";
-			inventory.push_back(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
-			cout << "-> Saved to inventory.\n";
+			player->attack(&monster);	
 			
-			//		
-			player->setExp(monster.getExpReward()); // returns bool (true if lvl up)
+			if (monster.getIsDead())
+			{
+				// true monster dead
+				// battle end
+				cout << "\nVictory!\n";
+				cout << "-> Got: " << monster.getDropItemName() << "!\n";
+				inventory.items.push_back(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
+				cout << "-> Saved to inventory.\n";
+			
+				//		
+				player->setExp(monster.getExpReward()); // returns bool (true if lvl up)
 	
 		
+			}
+			else
+			{
+				// false monster is not dead
+				// monster attack
+				cout << "\n--- Monster Turn ---\n";
+				monster.attack(player);
+			
+				if (player->getHP() <= 0)
+				{
+					cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
+				}		
+		
+			}				
+		}
+		else if (playerChoice == 2)
+		{
+			//cout << "[ Inventory ]";
+			//showInventory(inventory);
+			
+			// using item			
+			int playerChosenItemNum = 0;
+			while (playerChosenItemNum < 1 || playerChosenItemNum > inventory.items.size())
+			{
+				showInventory(inventory);
+				cout << "Chose item: "; cin >> playerChosenItemNum;
+				
+				if (playerChosenItemNum < 1 || playerChosenItemNum > inventory.items.size())
+				{
+					cout << "\n!!!!! Wrong Choice !!!!!\n";
+					cout << "Press 1 ~ " << inventory.items.size() << "\n\n";						
+				}
+				else
+				{	
+					playerChosenItemNum -= 1; // to fix with arr					
+					//inventory.items[playerChosenItemNum]
+					//inventory.UseItem(playerChosenItemNum);
+					
+					// show item
+					
+					cout << "* " << inventory.items[playerChosenItemNum].itemName << " used!";
+					
+					if (inventory.items[playerChosenItemNum].itemName == HP_POTION)
+					{
+						
+						cout << "HP restored by " << HPPOTION_INCREASE_AMOUNT << " ";
+						
+						int oldHP = player->getHP();
+						
+						player->setHP(min(player->getHP() + 50, player->getMaxHP()));
+						
+						cout << "(" << oldHP << " -> " << player->getHP() << ")\n";
+						
+						// delete
+						inventory.items.erase(inventory.items.begin() + playerChosenItemNum);
+						
+					}
+					else if (inventory.items[playerChosenItemNum].itemName == MP_POTION)
+					{
+						cout << "MP restored by " << MPPOTION_INCREASE_AMOUNT << " ";
+						
+						int oldMP = player->getMP();
+						
+						player->setMP(min(player->getMP() + 50, player->getMaxMP()));
+						
+						cout << "(" << oldMP << " -> " << player->getMP() << ")\n";
+						// delete
+						inventory.items.erase(inventory.items.begin() + playerChosenItemNum);
+					}
+					
+					
+					/*
+					cout << "[ Inventory (" <<inventory.items.size() << "/" << inventory.currentMaxInventorySize << ") ]\n";				
+				
+					for (auto it : inventory.items)
+					{		
+						cout<< num << ". " << it.itemName << " (" << it.itemPrice << "G)\n";
+						++num;
+					}
+					*/
+					
+					//
+					break;
+				}
+				
+			}			
+			
+			
+			
 		}
 		else
 		{
-			// false monster is not dead
-			// monster attack
-			cout << "\n--- Monster Turn ---\n";
-			monster.attack(player);
-			
-			if (player->getHP() <= 0)
-			{
-				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
-			}			
+			cout << "\n!!!!! Wrong Choice !!!!!\n";
+			cout << "Press 1 or 2\n\n";						
+		}
 		
-		}	
+		//		
 	
 	}
 }
 
+
+void showInventory(Inventory inventory) 
+{
+	int num = 1;	
+	cout << "[ Inventory (" <<inventory.items.size() << "/" << inventory.currentMaxInventorySize << ") ]\n";				
+				
+	for (auto it : inventory.items)
+	{
+		
+		cout<< num << ". " << it.itemName << " (" << it.itemPrice << "G)\n";
+		++num;
+	}
+}
 
 //
 void showAllRecipes(vector<PotionRecipe> allPotionInfo)

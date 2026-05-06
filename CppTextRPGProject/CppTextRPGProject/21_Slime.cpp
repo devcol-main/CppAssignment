@@ -1,5 +1,7 @@
 ﻿#include "21_Slime.h"
 
+#include "90_GlobalVariable.h"
+
 
 void Slime::initializing()
 {
@@ -7,7 +9,7 @@ void Slime::initializing()
     hp = 30;
     power = 20;
     defence = 10;
-    dropItemName = "Slime Jelly";
+    dropItemName = SLIME_JELLY; // "Slime Jelly";
     dropItemPrice = 30;
     
     //Slime slime("Slime", 10, 5, 2, 10, "Slime Jelly");
