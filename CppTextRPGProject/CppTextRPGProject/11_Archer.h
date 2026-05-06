@@ -7,7 +7,7 @@ public:
     Archer(string name, JOB job, int hp,int mp, int power, int defence) 
     : Player(name,job,hp,mp,power,defence){}
 
-    void attack() override;
+    void attack(Monster* monster) override;
     void printSelectedClass() override;
     
     //

@@ -18,6 +18,8 @@ void Player::printPlayerStatus()
     cout << "Name: " << name << " | Job: " << jobName << " | Lv." << level << endl;
 
     cout <<  "HP: " << hp << " | MP: " << mp << " | Attack: " << power << " | Defense: " << defence << endl;
+    
+    cout << "Exp: " << exp << " / " << maxExp << endl;   
 }
 
 // getter
@@ -50,6 +52,9 @@ int Player::getPlayerMP() {return mp; }
 
 int Player::getPlayerPower() {return power; }
 int Player::getPlayerDefense() {return defence; }
+
+int Player::getPlayerExp() {return exp; }
+int Player::getPlayerMaxExp() {return maxExp; }
 
 // ====== Setter
 
@@ -99,4 +104,43 @@ bool Player::setDamageAttackedFromMonster(int damage)
     
     return isDead;
 }
+
+bool Player::setPlayerExp(int exp)
+{
+    this->exp += exp;
+    if (this->exp >= maxExp)
+    {
+        //this->exp -= maxExp;
+        this->exp = 0;
+        levelUp();
+        
+        return true;
+    }
+    
+    cout << "-> +" << exp << " EXP! (EXP: " << this->exp << "/" << maxExp << ")\n";
+    
+    return false;
+}
+
+void Player::levelUp()
+{
+    cout << "\n... Level up condition met\n";
+    cout << "  -> Level Up! " << "Lv." << level << " -> ";
+    
+    level++;    
+    cout << "Lv." << level << endl;
+    
+    // TODO: Should be in variable... but let it be for now. 
+    hp += 10;
+    mp += 5;
+    power += 5;
+    defence += 5;    
+    maxExp += maxExpIncreaseAmount;
+    
+    cout << "  -> HP +10, MP +5, Attack +5\n";
+    
+}
+
+
+
 

@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "10_Player.h"
-
 #include <iostream>
+
+class Player;
 
 using namespace std;
 
@@ -12,7 +12,8 @@ class Monster
 protected:
     string name, dropItemName;
     int hp, power, defence, dropItemPrice;
-    
+    int expReward = 30;
+    bool isDead = false;
 public:
     Monster() = default;
     
@@ -34,6 +35,9 @@ public:
     int getPower();
     int getDefence();
     int getDropItemPrice();
+    int getExpReward();
+    
+    bool getIsDead();
     
     //
     virtual bool setDamageAttackedFromPlayer(int damage);

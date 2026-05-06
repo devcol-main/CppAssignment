@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <iostream>
+#include "20_Monster.h"
 using namespace std;
 
 
@@ -15,6 +16,9 @@ protected:
 	string name;
 	JOB job;
 	int level, hp, mp, power, defence;
+	int exp = 0;
+	int maxExp = 100;
+	const int maxExpIncreaseAmount = 10;
 	
 
 public:
@@ -26,13 +30,13 @@ public:
 	}
 
 	// pure virtual func	
-	virtual void attack() = 0;		
+	virtual void attack(Monster* monster) = 0;		
 	virtual void printSelectedClass() = 0;
 	
 	
 	// 
 	void printPlayerStatus();
-	
+	void levelUp();
 	
 	
 	// === not done ===
@@ -46,10 +50,14 @@ public:
 	int getPlayerPower();
 	int getPlayerDefense();
 	
+	int getPlayerExp();
+	int getPlayerMaxExp();
 	
 	// setter
 	virtual bool setDamageAttackedFromMonster(int damage);
-
+	
+	bool setPlayerExp(int exp);
+	
 	
 
 	virtual ~Player() {}

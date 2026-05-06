@@ -76,6 +76,10 @@ bool SearchByName(vector<PotionRecipe> allPotionInfo, string potionName);
 bool SearchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName);
 void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo); // 추후 여기서 제작한거 저장 하려면 &레퍼런스나 *포인터로 변경하자
 
+
+// ===== Extras =====
+void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
+
 //
 void endingCredit();
 
@@ -123,11 +127,20 @@ int main()
 	string heroName;
 	const int SIZE = 4; int stat[SIZE] = { 0 }; //HP, MP, Attack, Defense;
 
-	int HealthPotion = 5, ManaPotion = 5;
+	//int HPPotion = 5, MPPotion = 5;
+	int HPPotion = 0, MPPotion = 0;
+	
+	setPotion(5,  &HPPotion, &MPPotion);
+	
 	bool isGameStart = false;
 	
 	// custom
 	int HealthPotionIncreaseAmount = 20, ManaPotionIncreaseAmount = 20;
+	
+	//
+	Monster monster = Monster();
+	
+	
 	//
 	Player* player = nullptr;
 	
@@ -162,7 +175,7 @@ int main()
 	printStatManageMenu();
 
 	
-	upgradeStatMenu(heroName, stat, HealthPotion, ManaPotion, isGameStart, HealthPotionIncreaseAmount,
+	upgradeStatMenu(heroName, stat, HPPotion, MPPotion, isGameStart, HealthPotionIncreaseAmount,
 	                ManaPotionIncreaseAmount);
 	
 	int selectedJobNum = jobSelect(heroName);
@@ -232,7 +245,7 @@ int main()
 		}
 	
 		// Start Balltle
-		player->attack();
+		//player->attack(); // TODO: TO Be Delete
 	
 		cout << "------------------------------------\n";
 		player->printPlayerStatus();
@@ -241,7 +254,7 @@ int main()
 	
 		// Enter battle loop	
 	
-		// random
+		// random // TODO: Set in func
 		// 1. Obtain a random number from hardware to seed the generator
 		random_device rd;     
 		// 2. Initialize the Mersenne Twister engine with the seed
@@ -251,10 +264,10 @@ int main()
 
 		// 4. Generate the number
 		int random_num = dist(gen);	
-		cout << "Random Number: " << random_num << endl;
+		//cout << "Random Number: " << random_num << endl;
 		// select monster
 		
-		Monster monster = Monster();
+		//Monster monster = Monster(); // TODO: TO Be Delete
 	
 		if (random_num == 1)
 		{		
@@ -265,6 +278,7 @@ int main()
 			monster = Goblin();
 		}
 	
+		// ==
 		
 		startBattleWithMonster(player, monster, inventory);
 	
@@ -321,7 +335,7 @@ void enterStats(int stat[4])
 
 	while (true)
 	{
-		cout << "Enter Attack and Defense: "; cin >> stat[STATS_Attack] >> stat[STATS_Defense]; // In order to stay in same line, user has to press space after hp
+		cout << "Enter Attack and Defense: "; cin >> stat[STATS_Attack] >> stat[STATS_Defense]; // To stay in same line, user has to press space after hp
 
 		// Attack, Defense가 모두 50보다 클 때만 break로 입력 루프 탈출하기
 		if (stat[STATS_Attack] > 50 && stat[STATS_Defense] > 50)
@@ -576,11 +590,12 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 		// Player Turn
 		cout << "--- Player Turn ---\n";	
 		//
-		player->attack(); // plain text
-	
-		//	
-	
-		if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		
+		player->attack(&monster);
+		
+		//if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		
+		if (monster.getIsDead())
 		{
 			// true monster dead
 			// battle end
@@ -588,6 +603,21 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 			cout << "-> Got: " << monster.getDropItemName() << "!\n";
 			inventory.push_back(Item{ monster.getDropItemName(), monster.getDropItemPrice() });
 			cout << "-> Saved to inventory.\n";
+			
+			//		
+			player->setPlayerExp(monster.getExpReward());
+			
+			/*
+			if (player->setPlayerExp(monster.getExpReward()))
+			{
+				// level up
+			}
+			else
+			{
+				cout << "-> +" << monster.getExpReward() << " EXP! (EXP: " << player->getPlayerExp() << "/" << player->getPlayerMaxExp() << ")\n";	
+			}*/
+			 
+			//player->set
 		
 		}
 		else
@@ -604,6 +634,8 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 			
 		
 		}
+		
+	
 	}
 }
 
@@ -735,7 +767,11 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo)
 	}
 }
 
-
+void setPotion(int count, int* p_HPPotion, int* p_MPPotion)
+{
+	*p_HPPotion = count; 
+	*p_MPPotion = count;
+}
 
 //
 void endingCredit()

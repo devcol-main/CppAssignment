@@ -1,4 +1,5 @@
 ﻿#include "20_Monster.h"
+#include "10_Player.h"
 
 void Monster::attack(Player* player)
 {
@@ -16,11 +17,16 @@ int Monster::getPower() { return power; }
 int Monster::getDefence() { return defence; }
 int Monster::getDropItemPrice() { return dropItemPrice; }
 
+//
+int Monster::getExpReward(){ return expReward;}
+
+bool Monster::getIsDead(){ return isDead;}       
+
 
 //
 bool Monster::setDamageAttackedFromPlayer(int damage)
 {
-    bool isDead = false;
+    //bool isDead = false;
    
     int fixedDamage = 1;
     int originHP = hp;    
