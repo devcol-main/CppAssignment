@@ -22,7 +22,7 @@ using namespace std;
 
 enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
 
-struct Item
+struct ItemInfo
 {
 	string itemName;
 	int itemPrice;
@@ -50,7 +50,7 @@ int printJobChoice(string heroName);
 int jobSelect(string heroName);
 
 void createPlayerWithJob(string heroName, int stat[4], Player*& player, int selectedJobNum);
-void startBattleWithMonster(Player* player, Slime monster, vector<Item> inventory);
+void startBattleWithMonster(Player* player, Slime monster, vector<ItemInfo> inventory);
 
 void endingCredit();
 
@@ -75,10 +75,10 @@ int main()
 	
 	//	
 	int currentMaxInventroySize = 10;
-	vector<Item> inventory; 
+	vector<ItemInfo> inventory; 
 	
 	//
-	Item item;
+	ItemInfo item;
 	item.itemName = "Slime Jelly";
 	item.itemPrice = 30;
 	
@@ -161,7 +161,7 @@ int main()
 	player->attack();
 	
 	cout << "------------------------------------\n";
-	player->printPlayerStatus();
+	player->printStatus();
 	cout << "------------------------------------\n";
 	
 	
@@ -459,14 +459,14 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 	}
 }
 
-void startBattleWithMonster(Player* player, Slime monster, vector<Item> inventory)
+void startBattleWithMonster(Player* player, Slime monster, vector<ItemInfo> inventory)
 {
 	cout << "\n";
-	cout<< "[ Battle Start! ] " << player->getPlayerName() 
-		<< "(" << player->getPlayerJobname() << ")" 
+	cout<< "[ Battle Start! ] " << player->getName() 
+		<< "(" << player->getJobname() << ")" 
 		<< " vs " << monster.getMonsterName() << "\n\n";  
 	
-	while (player->getPlayerHP() > 0 && monster.getHP() > 0)
+	while (player->getHP() > 0 && monster.getHP() > 0)
 	{
 		
 		// Player Turn
@@ -476,13 +476,13 @@ void startBattleWithMonster(Player* player, Slime monster, vector<Item> inventor
 	
 		//	
 	
-		if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		if (monster.setDamageAttackedFromPlayer(player->getPower()))
 		{
 			// true monster dead
 			// battle end
 			cout << "\nVictory!\n";
 			cout << "-> Got: " << monster.getDropItemName() << "!\n";
-			inventory.push_back(Item{ monster.getDropItemName(), monster.getDropItemPrice() });
+			inventory.push_back(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
 			cout << "-> Saved to inventory.\n";
 		
 		}
@@ -493,7 +493,7 @@ void startBattleWithMonster(Player* player, Slime monster, vector<Item> inventor
 			cout << "\n--- Monster Turn ---\n";
 			monster.attack(player);
 			
-			if (player->getPlayerHP() <= 0)
+			if (player->getHP() <= 0)
 			{
 				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
 			}

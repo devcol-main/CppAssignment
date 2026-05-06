@@ -30,7 +30,7 @@ public:
 	
 	
 	// 
-	void printPlayerStatus();
+	void printStatus();
 	
 	
 	

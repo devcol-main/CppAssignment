@@ -4,7 +4,7 @@
 //
 
 
-void Player::printPlayerStatus()
+void Player::printStatus()
 {
     //cout << "1. Warrior   2. Magician   3. Thief   4. Archer\n";
     string jobName = "";

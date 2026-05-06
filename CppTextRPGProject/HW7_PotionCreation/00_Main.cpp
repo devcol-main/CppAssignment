@@ -21,7 +21,7 @@ struct PotionRecipe
 
 // =======================
 
-void ShowAllRecipes(vector<PotionRecipe> allPotionInfo)
+void showAllRecipes(vector<PotionRecipe> allPotionInfo)
 {
     for (int i = 0; i < allPotionInfo.size(); i++)
     {        
@@ -35,7 +35,7 @@ void ShowAllRecipes(vector<PotionRecipe> allPotionInfo)
     
 }
 
-bool SearchByName(vector<PotionRecipe> allPotionInfo, string potionName)
+bool searchByName(vector<PotionRecipe> allPotionInfo, string potionName)
 {
     for (auto p : allPotionInfo)
     {
@@ -62,7 +62,7 @@ bool SearchByName(vector<PotionRecipe> allPotionInfo, string potionName)
     return false;
 }
 
-bool SearchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName)
+bool searchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName)
 {
     
     int numFound = 0;
@@ -117,14 +117,14 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo)
         else if (1 == potionShopChoice)
         {
             //cout << "1. Show all recipes\n";
-            ShowAllRecipes(allPotionInfo);
+            showAllRecipes(allPotionInfo);
         }
         else if (2 == potionShopChoice)
         {
             string tempName;
             cout << "Search potion name: "; cin >> tempName;
             
-            SearchByName(allPotionInfo,tempName);
+            searchByName(allPotionInfo,tempName);
             
         }
         else if (3 == potionShopChoice)
@@ -136,7 +136,7 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo)
 
             getline(cin, tempName); // inorder to include space need to use getline (#include <string>)             
             
-            SearchByIngredient(allPotionInfo ,tempName);
+            searchByIngredient(allPotionInfo ,tempName);
             
             
         }

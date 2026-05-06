@@ -31,20 +31,20 @@ public:
 	
 	
 	// 
-	void printPlayerStatus();
+	void printStatus();
 	
 	
 	
 	// === not done ===
 	// getter
-	string getPlayerName();
-	string getPlayerJobname();
+	string getName();
+	string getJobname();
 	
-	int getPlayerLevel();
-	int getPlayerHP();
-	int getPlayerMP();
-	int getPlayerPower();
-	int getPlayerDefense();
+	int getLevel();
+	int getHP();
+	int getMP();
+	int getPower();
+	int getDefense();
 	
 	
 	// setter

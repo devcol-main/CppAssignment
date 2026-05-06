@@ -35,28 +35,28 @@ public:
 	
 	
 	// 
-	void printPlayerStatus();
+	void printStatus();
 	void levelUp();
 	
 	
 	// === not done ===
 	// getter
-	string getPlayerName();
-	string getPlayerJobname();
+	string getName();
+	string getJobname();
 	
-	int getPlayerLevel();
-	int getPlayerHP();
-	int getPlayerMP();
-	int getPlayerPower();
-	int getPlayerDefense();
+	int getLevel();
+	int getHP();
+	int getMP();
+	int getPower();
+	int getDefense();
 	
-	int getPlayerExp();
-	int getPlayerMaxExp();
+	int getExp();
+	int getMaxExp();
 	
 	// setter
 	virtual bool setDamageAttackedFromMonster(int damage);
 	
-	bool setPlayerExp(int exp);
+	bool setExp(int exp);
 	
 	
 

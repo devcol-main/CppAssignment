@@ -3,7 +3,7 @@
 
 //
 
-void Player::printPlayerStatus()
+void Player::printStatus()
 {
     //cout << "1. Warrior   2. Magician   3. Thief   4. Archer\n";
     string jobName = "";
@@ -22,12 +22,12 @@ void Player::printPlayerStatus()
 
 // getter
 
-string Player::getPlayerName()
+string Player::getName()
 {
     return name;
 }
 
-string Player::getPlayerJobname()
+string Player::getJobname()
 {
     string jobName = "";
     
@@ -42,14 +42,14 @@ string Player::getPlayerJobname()
     return  jobName;
 }
 
-int Player::getPlayerLevel() {return level; }
+int Player::getLevel() {return level; }
 
-int Player::getPlayerHP() {return hp; }
-int Player::getPlayerMP() {return mp; }
+int Player::getHP() {return hp; }
+int Player::getMP() {return mp; }
 
 
-int Player::getPlayerPower() {return power; }
-int Player::getPlayerDefense() {return defence; }
+int Player::getPower() {return power; }
+int Player::getDefense() {return defence; }
 
 // ====== Setter
 

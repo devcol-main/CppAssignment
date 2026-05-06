@@ -82,7 +82,7 @@ int main()
 	player->attack();
 	
 	cout << "------------------------------------\n";
-	player->printPlayerStatus();
+	player->printStatus();
 	cout << "------------------------------------\n";
 	
 	
@@ -92,11 +92,11 @@ int main()
 	//s.attack(player);
 	
 	cout << "\n";
-	cout<< "[ Battle Start! ] " << player->getPlayerName() 
-	<< "(" << player->getPlayerJobname() << ")" 
+	cout<< "[ Battle Start! ] " << player->getName() 
+	<< "(" << player->getJobname() << ")" 
 	<< " vs " << monster.getMonsterName() << "\n\n";  
 	
-	while (player->getPlayerHP() > 0 && monster.getHP() > 0)
+	while (player->getHP() > 0 && monster.getHP() > 0)
 	{
 		
 		// Player Turn
@@ -106,7 +106,7 @@ int main()
 	
 		//	
 	
-		if (monster.setDamageAttackedFromPlayer(player->getPlayerPower()))
+		if (monster.setDamageAttackedFromPlayer(player->getPower()))
 		{
 			// true monster dead
 			// battle end
@@ -121,7 +121,7 @@ int main()
 			cout << "\n--- Monster Turn ---\n";
 			monster.attack(player);
 			
-			if (player->getPlayerHP() <= 0)
+			if (player->getHP() <= 0)
 			{
 				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
 			}

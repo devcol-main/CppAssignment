@@ -28,7 +28,7 @@ using namespace std;
 
 enum STATS { STATS_HP, STATS_MP, STATS_Attack, STATS_Defense };
 
-struct Item
+struct ItemInfo
 {
 	string itemName;
 	int itemPrice;
@@ -69,12 +69,12 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 //
 
 void generateRandomMonster(Monster& monster);
-void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inventory);
+void startBattleWithMonster(Player* player, Monster monster, vector<ItemInfo>& inventory);
 
 // potion shop
-void ShowAllRecipes(vector<PotionRecipe> allPotionInfo);
-bool SearchByName(vector<PotionRecipe> allPotionInfo, string potionName);
-bool SearchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName);
+void showAllRecipes(vector<PotionRecipe> allPotionInfo);
+bool searchByName(vector<PotionRecipe> allPotionInfo, string potionName);
+bool searchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName);
 void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo); // 추후 여기서 제작한거 저장 하려면 &레퍼런스나 *포인터로 변경하자
 
 
@@ -151,10 +151,10 @@ int main()
 	
 	//	
 	int currentMaxInventroySize = 10;
-	vector<Item> inventory; 
+	vector<ItemInfo> inventory; 
 	
 	//
-	Item item;
+	ItemInfo item;
 	item.itemName = "Slime Jelly";
 	item.itemPrice = 30;
 	
@@ -249,7 +249,7 @@ int main()
 		//player->attack(); // TODO: TO Be Delete
 	
 		cout << "------------------------------------\n";
-		player->printPlayerStatus();
+		player->printStatus();
 		cout << "------------------------------------\n";
 	
 		
@@ -580,14 +580,14 @@ void generateRandomMonster(Monster& monster)
 	}
 }
 
-void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inventory)
+void startBattleWithMonster(Player* player, Monster monster, vector<ItemInfo>& inventory)
 {
 	cout << "\n";
-	cout<< "[ Battle Start! ] " << player->getPlayerName() 
-		<< "(" << player->getPlayerJobname() << ")" 
+	cout<< "[ Battle Start! ] " << player->getName() 
+		<< "(" << player->getJobname() << ")" 
 		<< " vs " << monster.getMonsterName() << "\n\n";  
 	
-	while (player->getPlayerHP() > 0 && monster.getHP() > 0)
+	while (player->getHP() > 0 && monster.getHP() > 0)
 	{
 		
 		// Player Turn
@@ -602,11 +602,11 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 			// battle end
 			cout << "\nVictory!\n";
 			cout << "-> Got: " << monster.getDropItemName() << "!\n";
-			inventory.push_back(Item{ monster.getDropItemName(), monster.getDropItemPrice() });
+			inventory.push_back(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
 			cout << "-> Saved to inventory.\n";
 			
 			//		
-			player->setPlayerExp(monster.getExpReward()); // returns bool (true if lvl up)
+			player->setExp(monster.getExpReward()); // returns bool (true if lvl up)
 	
 		
 		}
@@ -617,7 +617,7 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 			cout << "\n--- Monster Turn ---\n";
 			monster.attack(player);
 			
-			if (player->getPlayerHP() <= 0)
+			if (player->getHP() <= 0)
 			{
 				cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
 			}			
@@ -629,7 +629,7 @@ void startBattleWithMonster(Player* player, Monster monster, vector<Item>& inven
 
 
 //
-void ShowAllRecipes(vector<PotionRecipe> allPotionInfo)
+void showAllRecipes(vector<PotionRecipe> allPotionInfo)
 {
 	for (int i = 0; i < allPotionInfo.size(); i++)
 	{        
@@ -643,7 +643,7 @@ void ShowAllRecipes(vector<PotionRecipe> allPotionInfo)
     
 }
 
-bool SearchByName(vector<PotionRecipe> allPotionInfo, string potionName)
+bool searchByName(vector<PotionRecipe> allPotionInfo, string potionName)
 {
 	for (auto p : allPotionInfo)
 	{
@@ -670,7 +670,7 @@ bool SearchByName(vector<PotionRecipe> allPotionInfo, string potionName)
 	return false;
 }
 
-bool SearchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName)
+bool searchByIngredient(vector<PotionRecipe> allPotionInfo,string ingredientName)
 {
     
 	int numFound = 0;
@@ -725,14 +725,14 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo)
 		else if (1 == potionShopChoice)
 		{
 			//cout << "1. Show all recipes\n";
-			ShowAllRecipes(allPotionInfo);
+			showAllRecipes(allPotionInfo);
 		}
 		else if (2 == potionShopChoice)
 		{
 			string tempName;
 			cout << "Search potion name: "; cin >> tempName;
             
-			SearchByName(allPotionInfo,tempName);
+			searchByName(allPotionInfo,tempName);
             
 		}
 		else if (3 == potionShopChoice)
@@ -744,7 +744,7 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo)
 
 			getline(cin, tempName); // inorder to include space need to use getline (#include <string>)             
             
-			SearchByIngredient(allPotionInfo ,tempName);
+			searchByIngredient(allPotionInfo ,tempName);
             
             
 		}

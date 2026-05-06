@@ -120,7 +120,7 @@ int main()
 	player->attack();
 	
 	cout << "------------------------------------\n";
-	player->printPlayerStatus();
+	player->printStatus();
 	cout << "------------------------------------\n";
 	/*
 	
