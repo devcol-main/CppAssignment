@@ -75,12 +75,42 @@ public:
     
     void AddItem(const T& item)
     {
+        
         if (size_ < capacity_)
         {
             pItems_[size_++] = item;
+            cout << "Adding item... (" << size_ << "/" << capacity_;
+            cout << ")\n";
         }
+        else
+        {
+            cout << "Adding item... (" << size_ << "/" << capacity_;
+            cout << " full)\n";
+            Resize(capacity_ * 2);
+        }
+        
+        cout << "-> Item added\n";
+        
+    }
+    //
+    void Resize(int newCapacity)
+    {
+        cout << "-> Inventory auto-expanded! (" << size_ << " -> " << newCapacity << ")\n";
+        capacity_ = newCapacity;
+        
+        // 새 배열 할당 -> 기존 데이터 복사 -> 기존 배열 해제 순서 지키기
+        T* newItems = new T[capacity_];
+        for (int i = 0; i < size_; i++)
+        {
+            newItems[i] = pItems_[i];
+        }
+        delete[] pItems_;
+        pItems_ = newItems;       
     }
     
+    
+    
+    //
     void RemoveLastItem()
     {
         if (size_ > 0)
@@ -103,11 +133,10 @@ public:
         }       
     }
     
-    // std::sort(pItems_, pItems_ + size_, compareByPrice)
-    
+    // std::sort(pItems_, pItems_ + size_, compareByPrice)    
     static bool compareByPrice(const T& a, const T& b)
     {
-        return a.itemPrice > b.itemPrice;
+        return a.itemPrice < b.itemPrice;
     }
     
     void SortItems()
@@ -143,6 +172,9 @@ public:
     {
         cout << capacity_ << endl;
     }   
+    
+  
+    
     
     
     ~Inventory()
