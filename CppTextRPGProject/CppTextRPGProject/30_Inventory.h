@@ -105,7 +105,7 @@ public:
     
     // std::sort(pItems_, pItems_ + size_, compareByPrice)
     
-    bool compareByPrice(const ItemInfo& a, const ItemInfo& b)
+    static bool compareByPrice(const T& a, const T& b)
     {
         return a.itemPrice > b.itemPrice;
     }

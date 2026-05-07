@@ -61,7 +61,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 //
 
 void generateRandomMonster(Monster& monster);
-void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo> inventory);
+void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>& inventory); // vector 에서 변경되서 &로 넘겨야함
 
 // potion shop
 void showAllRecipes(vector<PotionRecipe> allPotionInfo);
@@ -71,7 +71,8 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo); // 추후 여기
 
 //
 
-void showInventory(Inventory<ItemInfo> inventory);
+void showInventory(Inventory<ItemInfo>& inventory);// vector 에서 변경되서 &로 넘겨야함
+void showSortedInventory(Inventory<ItemInfo>& inventory);
 
 // ===== Extras =====
 void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
@@ -175,6 +176,14 @@ int main()
 	inventory.AddItem(hpPotionItem);
 	inventory.AddItem(mpPotionItem);	
 	
+	// TODO: For testing
+	inventory.AddItem(hpPotionItem);
+	inventory.AddItem(hpPotionItem);
+	inventory.AddItem(hpPotionItem);
+	inventory.AddItem(hpPotionItem);
+	//inventory.AddItem(hpPotionItem);
+	//inventory.AddItem(hpPotionItem);
+	//inventory.AddItem(hpPotionItem); // 9
 	
 	//
 	
@@ -214,6 +223,7 @@ int main()
 			cout << "1. Enter Dungeon\n";
 			cout << "2. Check Inventory\n";
 			cout << "3. Potion Shop\n";
+			cout << "4. Sort Inventory By Price\n";
 			cout << "0. Quit\n";
 		
 			cout << "\nChoose: "; cin >> selectedMenuNum;
@@ -233,6 +243,11 @@ int main()
 			{
 				displayPotionShopMenu(allPotionInfo);
 			}
+			else if (4 == selectedMenuNum)
+			{
+				//cout << "4. Sort Inventory By Price\n";
+				showSortedInventory(inventory);
+			}
 			
 			else if (0 == selectedMenuNum)
 			{
@@ -248,8 +263,7 @@ int main()
 			}
 			else
 			{
-				cout << "!!!!! Wrong Choice !!!!!\n";
-				cout << "Press 1 or 2 or 0\n";
+				cout << "!!!!! Wrong Choice !!!!!\n";				
 				cout << "\n";
 			}
 		
@@ -580,7 +594,7 @@ void generateRandomMonster(Monster& monster)
 	}
 }
 
-void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo> inventory)
+void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>& inventory)
 {
 	cout << "\n";
 	cout<< "[ Battle Start! ] " << player->getName() 
@@ -637,6 +651,12 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>
 		}
 		else if (playerChoice == 2)
 		{
+			if (0 >= inventory.size_)
+			{
+				cout << "\n!!!!! No Items in Inventory !!!!!\n";					
+				continue;
+			}
+			
 			//cout << "[ Inventory ]";
 			//showInventory(inventory);
 			
@@ -729,7 +749,7 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>
 }
 
 
-void showInventory(Inventory<ItemInfo> inventory) 
+void showInventory(Inventory<ItemInfo>& inventory) 
 {
 	int num = 1;	
 	
@@ -745,6 +765,25 @@ void showInventory(Inventory<ItemInfo> inventory)
 	for (int i = 0; i < inventory.size_; i++)
 	{		
 		cout<< num << ". " << inventory.pItems_[i].itemName << " (" << inventory.pItems_[i].itemPrice << "G)\n";
+		++num;
+	}
+	
+	
+}
+
+void showSortedInventory(Inventory<ItemInfo>& inventory)
+{
+	int num = 1;
+	
+	//cout << "[ Inventory (" <<inventory.size_ << "/" << inventory.capacity_ << ") ]\n";
+	cout << "[ Inventory sorted by price ]\n";
+	
+	inventory.SortItems();
+
+	for (int i = 0; i < inventory.size_; i++)
+	{		
+		cout<< num << ". " << inventory.pItems_[i].itemName << " (" << inventory.pItems_[i].itemPrice << "G)\n";
+		++num;
 	}
 }
 

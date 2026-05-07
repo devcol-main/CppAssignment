@@ -61,7 +61,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 //
 
 void generateRandomMonster(Monster& monster);
-void startBattleWithMonster(Player* player, Monster monster, Inventory inventory);
+void startBattleWithMonster(Player* player, Monster monster, Inventory& inventory);
 
 // potion shop
 void showAllRecipes(vector<PotionRecipe> allPotionInfo);
@@ -71,7 +71,7 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo); // 추후 여기
 
 //
 
-void showInventory(Inventory inventory);
+void showInventory(Inventory& inventory);
 
 // ===== Extras =====
 void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
@@ -562,7 +562,7 @@ void generateRandomMonster(Monster& monster)
 	}
 }
 
-void startBattleWithMonster(Player* player, Monster monster, Inventory inventory)
+void startBattleWithMonster(Player* player, Monster monster, Inventory& inventory)
 {
 	cout << "\n";
 	cout<< "[ Battle Start! ] " << player->getName() 
@@ -700,7 +700,7 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 }
 
 
-void showInventory(Inventory inventory) 
+void showInventory(Inventory& inventory) 
 {
 	int num = 1;	
 	cout << "[ Inventory (" <<inventory.items.size() << "/" << inventory.currentMaxInventorySize << ") ]\n";				
