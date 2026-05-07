@@ -7,10 +7,10 @@ void Slime::initializing()
 {
     name = "Slime";
     hp = 30;
-    power = 20;
-    defence = 10;
+    power = 15;
+    defence = 0;
     dropItemName = SLIME_JELLY; // "Slime Jelly";
-    dropItemPrice = 30;
+    dropItemPrice = 5;
     
     //Slime slime("Slime", 10, 5, 2, 10, "Slime Jelly");
 }

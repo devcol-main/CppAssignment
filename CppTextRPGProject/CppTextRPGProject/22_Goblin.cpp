@@ -6,9 +6,9 @@
 void Goblin::initializing()
 {
     name = "Goblin";
-    hp = 10;
-    power = 10;
-    defence = 5;
+    hp = 50;
+    power = 25;
+    defence = 0;
     dropItemName =  GOBLIN_LEATHER; //"Goblin Leather";
     dropItemPrice = 10;
     

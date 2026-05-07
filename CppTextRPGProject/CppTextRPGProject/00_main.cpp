@@ -22,6 +22,8 @@
 //#include "20_Monster.h"
 #include "21_Slime.h"
 #include "22_Goblin.h"
+#include "23_Orc.h"
+#include "29_BossDragon.h"
 
 #include  "30_Inventory.h"
 
@@ -61,7 +63,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 //
 
 void generateRandomMonster(Monster& monster);
-void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>& inventory); // vector 에서 변경되서 &로 넘겨야함
+bool startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>& inventory); // vector 에서 변경되서 &로 넘겨야함
 
 // potion shop
 void showAllRecipes(vector<PotionRecipe> allPotionInfo);
@@ -84,6 +86,8 @@ void endingCredit();
 // ===============================================
 
 
+bool isGameOver = false;
+//
 
 int main()
 {
@@ -212,6 +216,10 @@ int main()
 	
 	createPlayerWithJob(heroName, stat, player, selectedJobNum);
 	
+	// create monster room
+	vector<bool> dungeonFloorInfo {true,false,false,false,false}; // start,1,2,3,boss
+	
+	
 	// Main Menu
 	while (true)
 	{
@@ -252,14 +260,9 @@ int main()
 			else if (0 == selectedMenuNum)
 			{
 				cout << "Quit\n";
+				goto end_game;
 				
-				delete player;
 				
-				//delete inventory; // ~Inventry 안에서 구현해둠. 
-				
-				endingCredit();
-				
-				return 0;
 			}
 			else
 			{
@@ -273,21 +276,146 @@ int main()
 			
 		cout << "------------------------------------\n";
 		player->printStatus();
-		cout << "------------------------------------\n";
-	
+		cout << "------------------------------------\n";	
 		
-		generateRandomMonster(monster);
-		startBattleWithMonster(player, monster, inventory);
+		
+		cout << "\n[ Dungeon Floor 1 ]\n";
+		
+		string roomStatus = "";
+		
+		//Monster monster = Monster();
+		
+		Monster slime = Slime();
+		Monster goblin = Goblin();
+		Monster orc = Orc();
+		Monster bossDragon = BossDragon();
+		
+		vector<Monster> monstersInfo;
+		
+		monstersInfo.push_back(slime);
+		monstersInfo.push_back(goblin);
+		monstersInfo.push_back(orc);
+		monstersInfo.push_back(bossDragon);	
+		
+		
+		for (int i =1; i < dungeonFloorInfo.size(); ++i)
+		{
+			if (dungeonFloorInfo[i-1] == true && dungeonFloorInfo[i] == false)
+			{
+				roomStatus = OPEN;
+			}
+			else if (dungeonFloorInfo[i] == true)
+			{
+				roomStatus = CLEAR;
+			}
+			else
+			{
+				roomStatus = LOCK;
+			}
+			
+			// 난 이게 맞다고 생각하는데... 
+			//cout << "Room " << i << ": " << monstersInfo[i-1].getMonsterName()<< "   " << roomStatus << "\n";
+			// 과제에서 하드 코딩을 원하니 그렇게 해주겠다 ...
+			if (i == 1)
+			{
+				cout << "Room 1: Slime    (HP 30, Attack 15)  -> " << roomStatus << "!\n";
+			}
+			else if (i == 2)
+			{
+				cout << "Room 2: Goblin   (HP 50, Attack 25)  -> " << roomStatus << "!\n";
+			}
+			else if (i == 3)
+			{
+				cout << "Room 3: Orc      (HP 80, Attack 35)  -> " << roomStatus << "!\n";
+			}					
+			else if (i == 4 && dungeonFloorInfo[3] == true)
+			{
+				/*
+				if (roomStatus == OPEN || roomStatus == CLEAR)
+				{
+					
+				}	
+				*/
+				
+				cout << "\n★ Boss Room Unlocked!\n"; 
+				cout << "Room 4: Boss Dragon appears! (HP 200, Attack 60, Defense 20)\n\n";
+			}
+			
+		}
+		
+		//generateRandomMonster(monster);
+		
+		// create room 1~3 & boss
+		
+		//
+		int roomNum = 0;
+		
+		while (true)
+		{
+			cout << "Choose Room: "; cin >> roomNum;
+			if (roomNum == 1)
+			{
+				if (startBattleWithMonster(player, slime, inventory))
+				{
+					dungeonFloorInfo[1] = true;
+				}
+				
+				
+				
+				break;
+			}
+			else if (roomNum == 2 && dungeonFloorInfo[1] == true)
+			{
+				if (startBattleWithMonster(player, slime, inventory))
+				{
+					dungeonFloorInfo[2] = true;
+				}
+				
+				break;
+			}
+			else if (roomNum == 3 && dungeonFloorInfo[2] == true)
+			{
+				if (startBattleWithMonster(player, slime, inventory))
+				{
+					dungeonFloorInfo[3] = true;
+				}
+				break;
+			}
+			else if (roomNum == 4 && dungeonFloorInfo[3] == true)
+			{
+				startBattleWithMonster(player, bossDragon, inventory);
+				break;
+			}
+			else
+			{
+				cout << "Wrong Choice!\n";
+			}
+		}
+		
+		if (isGameOver)
+		{
+			
+			goto end_game;
+		}
+		
+		
+		//startBattleWithMonster(player, monster, inventory);
 	
 		//
 		
-	
 	}
 	
+	end_game:	
 	
-	
+	delete player;				
+	//delete inventory; // ~Inventry 안에서 구현해둠. 				
+	endingCredit();
+				
+	return 0;
 	
 }
+
+
 
 // ====== func
 
@@ -594,7 +722,7 @@ void generateRandomMonster(Monster& monster)
 	}
 }
 
-void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>& inventory)
+bool startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>& inventory)
 {
 	cout << "\n";
 	cout<< "[ Battle Start! ] " << player->getName() 
@@ -631,8 +759,15 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>
 				cout << "-> Saved to inventory.\n";
 			
 				//		
-				player->setExp(monster.getExpReward()); // returns bool (true if lvl up)
-	
+				player->setExp(monster.getExpReward()); // returns bool (true if lvl up)			
+				
+				if (monster.getMonsterName() == "Boss Dragon")
+				{
+					cout << "\nDragon defeated!\n";
+					cout << "=== GAME CLEAR! ===\n";
+				}
+				
+				return true;
 		
 			}
 			else
@@ -645,6 +780,9 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>
 				if (player->getHP() <= 0)
 				{
 					cout<< "\nPlayer DEAD\n" << "\nGAME OVER\n";
+					isGameOver = true;
+					//delete player;
+					return false;
 				}		
 		
 			}				
@@ -734,8 +872,6 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>
 				
 			}			
 			
-			
-			
 		}
 		else
 		{
@@ -746,6 +882,7 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo>
 		//		
 	
 	}
+	
 }
 
 

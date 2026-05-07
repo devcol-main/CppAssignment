@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "20_Monster.h"
 
-class Goblin : public Monster
+class BossDragon : public Monster
 {
     
 private:
     void initializing();
  
 public:    
-    Goblin() 
+    BossDragon() 
     {
         initializing();       
     }   
