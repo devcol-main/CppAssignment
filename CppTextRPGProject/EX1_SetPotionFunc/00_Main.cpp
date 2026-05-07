@@ -126,8 +126,10 @@ int main()
 	// =================================================
 	string heroName;
 	const int SIZE = 4; int stat[SIZE] = { 0 }; //HP, MP, Attack, Defense;
-
+	
 	//int HPPotion = 5, MPPotion = 5;
+	
+	
 	int HPPotion = 0, MPPotion = 0;
 	
 	setPotion(5,  &HPPotion, &MPPotion);
