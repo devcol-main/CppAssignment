@@ -61,7 +61,7 @@ void createPlayerWithJob(string heroName, int stat[4], Player*& player, int sele
 //
 
 void generateRandomMonster(Monster& monster);
-void startBattleWithMonster(Player* player, Monster monster, Inventory inventory);
+void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo> inventory);
 
 // potion shop
 void showAllRecipes(vector<PotionRecipe> allPotionInfo);
@@ -71,7 +71,7 @@ void displayPotionShopMenu(vector<PotionRecipe> allPotionInfo); // 추후 여기
 
 //
 
-void showInventory(Inventory inventory);
+void showInventory(Inventory<ItemInfo> inventory);
 
 // ===== Extras =====
 void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
@@ -122,12 +122,10 @@ int main()
 	const int SIZE = 4; int stat[SIZE] = { 0 }; //HP, MP, Attack, Defense;
 
 	// 
-	Inventory inventory; 
-	// 	
-	int hpPotionAmount = 0, mpPotionAmount = 0;	
-	int startingPotionCount = 1;
 	
-	setPotion(startingPotionCount,  &hpPotionAmount, &mpPotionAmount);
+	//Inventory<int> inventory(10);
+	// 	
+	
 	
 	bool isGameStart = false;
 	
@@ -141,31 +139,48 @@ int main()
 	//
 	Player* player = nullptr;
 	
-	
 	// ===== Inventory init =====
-	//inventory.insert(inventory.begin(), item);	
+	// 이미 vector로 다 짠거... 구리게 template으로 바꾸라고 해서 바꾼다...
+	//Inventory inventory;
+	
+	int hpUpgradePointAmount = 0, mpUpgradePointAmount = 0;	
+	int startingUpgradePointCount = 1;
+	
+	setPotion(startingUpgradePointCount,  &hpUpgradePointAmount, &mpUpgradePointAmount);
+	
+	int startingInventorySize = 10;
+	//Inventory<ItemInfo> inventory(startingInventorySize);
+	Inventory<ItemInfo> inventoryOrigin(startingInventorySize); // 원본 객체 생성  Shallow copy 얕은 복사
+	Inventory<ItemInfo> inventory = inventoryOrigin; // Deep copy 깊은 복사
 		
 	ItemInfo slimeItem;
 	slimeItem.itemName = SLIME_JELLY;
 	slimeItem.itemPrice = 30;
 	
-	inventory.items.push_back(slimeItem);	
+	//inventory.items.push_back(slimeItem);	
 
 	ItemInfo hpPotionItem;
 	hpPotionItem.itemName = HP_POTION;
 	hpPotionItem.itemPrice = 50;
 	
-	inventory.items.push_back(hpPotionItem);
+	//inventory.items.push_back(hpPotionItem);
 	
 	ItemInfo mpPotionItem;
 	mpPotionItem.itemName = MP_POTION;
 	mpPotionItem.itemPrice = 50;
 	
-	inventory.items.push_back(mpPotionItem);
+	//inventory.items.push_back(mpPotionItem); //
 	
-	// ===== =====
+	// ===== =====	
+	inventory.AddItem(hpPotionItem);
+	inventory.AddItem(mpPotionItem);	
+	
 	
 	//
+	
+	///inventoryOrigin.PrintAllItems();
+	//cout << "\n========\n" << endl;
+	//inventory.PrintAllItems();
 	printGameTitle();
 	heroName = enterName();	
 	enterStats(stat);
@@ -175,13 +190,13 @@ int main()
 
 	
 	cout << "\n\n";
-	cout << "* You received " << hpPotionAmount <<" HP Potions and "
-		<< mpPotionAmount << " MP Potions.\n\n";
+	cout << "* You received " << hpUpgradePointAmount <<" HP Upgrade Points and "
+		<< mpUpgradePointAmount << " MP Upgrade Points.\n\n";
 	
 	printStatChoices();
 
 	
-	upgradeStatMenu(heroName, stat, hpPotionAmount, mpPotionAmount, isGameStart, HPPOTION_INCREASE_AMOUNT,
+	upgradeStatMenu(heroName, stat, hpUpgradePointAmount, mpUpgradePointAmount, isGameStart, HPPOTION_INCREASE_AMOUNT,
 	                MPPOTION_INCREASE_AMOUNT);
 	
 	int selectedJobNum = jobSelect(heroName);
@@ -224,6 +239,9 @@ int main()
 				cout << "Quit\n";
 				
 				delete player;
+				
+				//delete inventory; // ~Inventry 안에서 구현해둠. 
+				
 				endingCredit();
 				
 				return 0;
@@ -341,7 +359,7 @@ void printStatChoices()
 
 
 void upgradeStatMenu(string heroName, 
-	int stat[4], int HealthPotion, int ManaPotion, bool isGameStart, 
+	int stat[4], int hpUpgradePointAmount, int mpUpgradePointAmount, bool isGameStart, 
 	int HealthPotionIncreaseAmount, int ManaPotionIncreaseAmount)
 {
 	while (!isGameStart)
@@ -359,17 +377,17 @@ void upgradeStatMenu(string heroName,
 		{
 		case ChoiceSelect_HPUP:
 			{
-				if (HealthPotion > 0)
+				if (hpUpgradePointAmount > 0)
 				{
-					--HealthPotion;
+					--hpUpgradePointAmount;
 
-					cout << "* HP increased by " << HealthPotionIncreaseAmount << ". (HP Potion used : " << HealthPotion << " left)\n";
+					cout << "* HP increased by " << HealthPotionIncreaseAmount << ". (HP Upgrade Point used : " << hpUpgradePointAmount << " left)\n";
 					stat[STATS_HP] += HealthPotionIncreaseAmount;
 
 				}
 				else
 				{
-					cout << "Not Enough Health Potion\n";
+					cout << "Not Enough Health Upgrade Point\n";
 				}
 
 
@@ -378,17 +396,17 @@ void upgradeStatMenu(string heroName,
 
 		case ChoiceSelect_MPUP:
 			{
-				if (ManaPotion > 0)
+				if (mpUpgradePointAmount > 0)
 				{
-					--ManaPotion;
+					--mpUpgradePointAmount;
 
-					cout << "* MP increased by " << ManaPotionIncreaseAmount << ". (MP Potion used : " << ManaPotion << " left)\n";
+					cout << "* MP increased by " << ManaPotionIncreaseAmount << ". (MP Upgrade Point used : " << mpUpgradePointAmount << " left)\n";
 					stat[STATS_MP] += ManaPotionIncreaseAmount;
 
 				}
 				else
 				{
-					cout << "Not Enough Mana Potion\n";
+					cout << "Not Enough Mana Upgrade Point\n";
 				}
 
 
@@ -562,7 +580,7 @@ void generateRandomMonster(Monster& monster)
 	}
 }
 
-void startBattleWithMonster(Player* player, Monster monster, Inventory inventory)
+void startBattleWithMonster(Player* player, Monster monster, Inventory<ItemInfo> inventory)
 {
 	cout << "\n";
 	cout<< "[ Battle Start! ] " << player->getName() 
@@ -591,7 +609,11 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 				// battle end
 				cout << "\nVictory!\n";
 				cout << "-> Got: " << monster.getDropItemName() << "!\n";
-				inventory.items.push_back(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
+				
+				//inventory.items.push_back(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
+				
+				inventory.AddItem(ItemInfo{ monster.getDropItemName(), monster.getDropItemPrice() });
+				
 				cout << "-> Saved to inventory.\n";
 			
 				//		
@@ -620,15 +642,16 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 			
 			// using item			
 			int playerChosenItemNum = 0;
-			while (playerChosenItemNum < 1 || playerChosenItemNum > inventory.items.size())
+			while (playerChosenItemNum < 1 || playerChosenItemNum > inventory.size_) //inventory.items.size())
 			{
 				showInventory(inventory);
 				cout << "Chose item: "; cin >> playerChosenItemNum;
 				
-				if (playerChosenItemNum < 1 || playerChosenItemNum > inventory.items.size())
+				if (playerChosenItemNum < 1 || playerChosenItemNum >  inventory.size_) //inventory.items.size())
 				{
 					cout << "\n!!!!! Wrong Choice !!!!!\n";
-					cout << "Press 1 ~ " << inventory.items.size() << "\n\n";						
+					//cout << "Press 1 ~ " << inventory.items.size() << "\n\n";
+					cout << "Press 1 ~ " << inventory.size_ << "\n\n";
 				}
 				else
 				{	
@@ -638,9 +661,12 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 					
 					// show item
 					
-					cout << "* " << inventory.items[playerChosenItemNum].itemName << " used!";
+					//cout << "* " << inventory.items[playerChosenItemNum].itemName << " used!";
+					cout << "* " << inventory.pItems_[playerChosenItemNum].itemName << " used!";
 					
-					if (inventory.items[playerChosenItemNum].itemName == HP_POTION)
+					
+					//if (inventory.items[playerChosenItemNum].itemName == HP_POTION)
+					if (inventory.pItems_[playerChosenItemNum].itemName == HP_POTION)
 					{
 						
 						cout << "HP restored by " << HPPOTION_INCREASE_AMOUNT << " ";
@@ -652,10 +678,12 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 						cout << "(" << oldHP << " -> " << player->getHP() << ")\n";
 						
 						// delete
-						inventory.items.erase(inventory.items.begin() + playerChosenItemNum);
+						//inventory.items.erase(inventory.items.begin() + playerChosenItemNum);
+						inventory.RemoveSelectedItem(playerChosenItemNum);
 						
 					}
-					else if (inventory.items[playerChosenItemNum].itemName == MP_POTION)
+					//else if (inventory.items[playerChosenItemNum].itemName == MP_POTION)
+					else if (inventory.pItems_[playerChosenItemNum].itemName == MP_POTION)
 					{
 						cout << "MP restored by " << MPPOTION_INCREASE_AMOUNT << " ";
 						
@@ -665,7 +693,8 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 						
 						cout << "(" << oldMP << " -> " << player->getMP() << ")\n";
 						// delete
-						inventory.items.erase(inventory.items.begin() + playerChosenItemNum);
+						//inventory.items.erase(inventory.items.begin() + playerChosenItemNum);
+						inventory.RemoveSelectedItem(playerChosenItemNum);
 					}
 					
 					
@@ -700,16 +729,22 @@ void startBattleWithMonster(Player* player, Monster monster, Inventory inventory
 }
 
 
-void showInventory(Inventory inventory) 
+void showInventory(Inventory<ItemInfo> inventory) 
 {
 	int num = 1;	
-	cout << "[ Inventory (" <<inventory.items.size() << "/" << inventory.currentMaxInventorySize << ") ]\n";				
+	
+	// cout << "[ Inventory (" <<inventory.items.size() << "/" << inventory.currentMaxInventorySize << ") ]\n";
+	
+	cout << "[ Inventory (" <<inventory.size_ << "/" << inventory.capacity_ << ") ]\n";
 				
-	for (auto it : inventory.items)
-	{
-		
+	/*for (auto it : inventory.items)
+	{		
 		cout<< num << ". " << it.itemName << " (" << it.itemPrice << "G)\n";
 		++num;
+	}*/
+	for (int i = 0; i < inventory.size_; i++)
+	{		
+		cout<< num << ". " << inventory.pItems_[i].itemName << " (" << inventory.pItems_[i].itemPrice << "G)\n";
 	}
 }
 
